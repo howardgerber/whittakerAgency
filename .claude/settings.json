@@ -1,0 +1,27 @@
+{
+  "projectName": "Whittaker Agency",
+  "description": "Insurance agency website serving families and businesses across Oregon",
+  "version": "1.0.0",
+  "includeCoAuthoredBy": false,
+  "slashCommands": {
+    "enabled": true,
+    "commandsDirectory": ".claude/commands"
+  },
+  "sessionNotes": {
+    "directory": "docs/sessions",
+    "template": "docs/templates/session-notes-template.md",
+    "namingConvention": "YYYY-MM-DD-descriptive-summary.md"
+  },
+  "documentation": {
+    "architecture": "docs/architecture",
+    "slices": "docs/slices",
+    "api": "docs/api",
+    "templates": "docs/templates"
+  },
+  "preferences": {
+    "useEmojis": false,
+    "codeStyle": "typescript-strict",
+    "commitMessageFormat": "descriptive-summary",
+    "testingFramework": "vitest"
+  }
+}
