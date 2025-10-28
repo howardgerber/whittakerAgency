@@ -37,6 +37,7 @@ services:
       ENVIRONMENT: development
     volumes:
       - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
       - whittaker_uploads:/app/uploads
     depends_on:
       db:

@@ -1,19 +1,13 @@
-from sqlalchemy import Column, Integer, String, Enum, TIMESTAMP
+from sqlalchemy import Column, Integer, String, TIMESTAMP
 from sqlalchemy.sql import func
 from app.core.database import Base
-import enum
-
-
-class EntityType(str, enum.Enum):
-    CLAIM = "claim"
-    CONTACT = "contact"
 
 
 class Attachment(Base):
     __tablename__ = "attachments"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    entity_type = Column(Enum(EntityType), nullable=False)
+    entity_type = Column(String(20), nullable=False)  # claim, contact, quote, etc.
     entity_id = Column(Integer, nullable=False)
     filename = Column(String(255), nullable=False)
     original_filename = Column(String(255), nullable=False)

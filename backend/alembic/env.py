@@ -9,7 +9,7 @@ from alembic import context
 from app.core.database import Base
 from app.models.user import User
 from app.models.quote_request import QuoteRequest
-from app.models.claim_request import ClaimRequest
+from app.models.claim import Claim
 from app.models.contact_message import ContactMessage
 from app.models.team_member import TeamMember
 from app.models.system_log import SystemLog

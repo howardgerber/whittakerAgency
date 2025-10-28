@@ -13,9 +13,17 @@ class AuthService:
     async def register_user(db: Session, user_data: UserRegister) -> UserProfile:
         """Register a new user with business logic and validation"""
 
+        # Business rule: Check if username already exists
+        existing_username = db.query(User).filter(User.username == user_data.username).first()
+        if existing_username:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username already taken"
+            )
+
         # Business rule: Check if email already exists
-        existing_user = db.query(User).filter(User.email == user_data.email).first()
-        if existing_user:
+        existing_email = db.query(User).filter(User.email == user_data.email).first()
+        if existing_email:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered"
@@ -24,6 +32,7 @@ class AuthService:
         # Create user
         hashed_password = hash_password(user_data.password)
         new_user = User(
+            username=user_data.username,
             email=user_data.email,
             full_name=user_data.full_name,
             phone=user_data.phone,
@@ -50,14 +59,14 @@ class AuthService:
     async def login_user(db: Session, credentials: UserLogin) -> Token:
         """Authenticate user and return JWT token"""
 
-        # Find user
-        user = db.query(User).filter(User.email == credentials.email).first()
+        # Find user by username
+        user = db.query(User).filter(User.username == credentials.username).first()
 
         # Verify credentials
         if not user or not verify_password(credentials.password, user.hashed_password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect email or password",
+                detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
 

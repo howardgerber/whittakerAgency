@@ -1,22 +1,13 @@
-from sqlalchemy import Column, Integer, String, Text, Enum, TIMESTAMP
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP
 from sqlalchemy.sql import func
 from app.core.database import Base
-import enum
-
-
-class LogLevel(str, enum.Enum):
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
 
 
 class SystemLog(Base):
     __tablename__ = "system_logs"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    level = Column(Enum(LogLevel), nullable=False, index=True)
+    level = Column(String(20), nullable=False, index=True)  # DEBUG, INFO, WARNING, ERROR, CRITICAL
     message = Column(Text, nullable=False)
     exception_type = Column(String(255), nullable=True)
     exception_message = Column(Text, nullable=True)

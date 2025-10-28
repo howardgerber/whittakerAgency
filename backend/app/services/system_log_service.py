@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.system_log import SystemLog, LogLevel
+from app.models.system_log import SystemLog
 from typing import Optional
 
 
@@ -21,7 +21,7 @@ class SystemLogService:
     ):
         """Log an exception to the system_logs table"""
         log_entry = SystemLog(
-            level=LogLevel[level],
+            level=level,
             message=message,
             exception_type=exception_type,
             exception_message=exception_message,
@@ -43,7 +43,7 @@ class SystemLogService:
     ):
         """Log an informational message"""
         log_entry = SystemLog(
-            level=LogLevel.INFO,
+            level="INFO",
             message=message,
             user_id=user_id
         )
