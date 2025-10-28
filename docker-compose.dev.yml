@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: whittaker-db
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_dev
+      MYSQL_DATABASE: whittaker
+      MYSQL_USER: whittaker_user
+      MYSQL_PASSWORD: whittaker_password_dev
+    volumes:
+      - whittaker_mariadb_data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - whittaker-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: whittaker-api
+    ports:
+      - "5102:5102"
+    environment:
+      DATABASE_URL: mysql+pymysql://whittaker_user:whittaker_password_dev@db:3306/whittaker
+      JWT_SECRET_KEY: dev-secret-key-change-in-production
+      BREVO_API_KEY: stub
+      ENVIRONMENT: development
+    volumes:
+      - ./backend/app:/app/app
+      - whittaker_uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - whittaker-network
+    command: /wait-for-db.sh db uvicorn app.main:app --host 0.0.0.0 --port 5102 --reload
+
+  nginx:
+    image: nginx:alpine
+    container_name: whittaker-nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./docker/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+    networks:
+      - whittaker-network
+
+volumes:
+  whittaker_mariadb_data:
+  whittaker_uploads:
+
+networks:
+  whittaker-network:
+    driver: bridge
