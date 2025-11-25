@@ -7,7 +7,7 @@
 
 ## Overview
 
-This document outlines the differences between development and production configurations. The project uses separate Docker Compose files and nginx configurations to optimize for each environment.
+Differences between development and production configurations using separate Docker Compose and nginx files.
 
 ---
 
@@ -33,162 +33,31 @@ This document outlines the differences between development and production config
 
 ### Development (`docker-compose.dev.yml`)
 
-**Purpose:** Local development with hot reload, exposed ports, and debugging
+**Purpose:** Local development with hot reload and debugging
 
-**Services:**
-```yaml
-services:
-  db:
-    image: mariadb:10.11
-    container_name: whittaker-db
-    ports:
-      - "3310:3306"              # ← EXPOSED for HeidiSQL access
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: whittaker
-      MYSQL_USER: whittaker_user
-      MYSQL_PASSWORD: SecureW@Pa55!2025
-    volumes:
-      - whittaker_mariadb_data:/var/lib/mysql
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - whittaker-network
-
-  api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: whittaker-api
-    ports:
-      - "5102:5102"              # ← EXPOSED for direct API access
-    environment:
-      DATABASE_URL: mysql+pymysql://whittaker_user:SecureW@Pa55!2025@db:3306/whittaker
-      JWT_SECRET_KEY: dev-secret-key-change-in-production
-      ENVIRONMENT: development
-    volumes:
-      - ./backend/app:/app/app   # ← HOT RELOAD: code changes reflected immediately
-      - whittaker_uploads:/app/uploads
-    depends_on:
-      - db
-    networks:
-      - whittaker-network
-    command: uvicorn app.main:app --host 0.0.0.0 --port 5102 --reload  # ← --reload flag
-
-  nginx:
-    image: nginx:alpine
-    container_name: whittaker-nginx
-    ports:
-      - "8082:80"                # ← HTTP only on port 8082
-    volumes:
-      - ./docker/nginx.dev.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro
-    depends_on:
-      - api
-    networks:
-      - whittaker-network
-
-volumes:
-  whittaker_mariadb_data:
-  whittaker_uploads:
-
-networks:
-  whittaker-network:
-    driver: bridge
-```
-
-**Key Features:**
-- ✅ Exposed ports for debugging (3310, 5102, 8082)
-- ✅ Hot reload enabled (--reload flag, volume mount)
-- ✅ Simple passwords (dev only!)
-- ✅ HTTP only (no SSL overhead)
-- ✅ Can run `npm run dev` on host for Vite hot reload
+**Key differences:**
+- Exposed ports: 3310 (MariaDB), 5102 (API), 8082 (nginx)
+- Hot reload enabled with `--reload` flag
+- Source code volume mounts for live changes
+- Simple passwords acceptable
+- HTTP only (no SSL)
+- Debug mode ON
 
 ---
 
 ### Production (`docker-compose.yml`)
 
-**Purpose:** Optimized for security, performance, and production deployment
+**Purpose:** Optimized for security and performance
 
-**Services:**
-```yaml
-services:
-  db:
-    image: mariadb:10.11
-    container_name: whittaker-db
-    # NO EXTERNAL PORT EXPOSED  # ← Security: database is internal only
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # ← From .env file
-      MYSQL_DATABASE: whittaker
-      MYSQL_USER: whittaker_user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}            # ← From .env file
-    volumes:
-      - whittaker_mariadb_data:/var/lib/mysql
-    networks:
-      - whittaker-network
-    restart: unless-stopped
-
-  api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-      target: production                           # ← Multi-stage build
-    container_name: whittaker-api
-    # NO EXTERNAL PORT EXPOSED                     # ← Only accessible via nginx
-    environment:
-      DATABASE_URL: mysql+pymysql://whittaker_user:${MYSQL_PASSWORD}@db:3306/whittaker
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}            # ← From .env file
-      BREVO_API_KEY: ${BREVO_API_KEY}
-      ENVIRONMENT: production
-    volumes:
-      - whittaker_uploads:/app/uploads             # ← NO source code mount
-    depends_on:
-      - db
-    networks:
-      - whittaker-network
-    restart: unless-stopped
-    # NO --reload flag
-
-  nginx:
-    image: nginx:alpine
-    container_name: whittaker-nginx
-    ports:
-      - "80:80"                                    # ← HTTP (redirects to HTTPS)
-      - "443:443"                                  # ← HTTPS with SSL
-    volumes:
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro
-      - ./certbot/conf:/etc/letsencrypt:ro         # ← SSL certificates
-      - ./certbot/www:/var/www/certbot:ro
-    depends_on:
-      - api
-    networks:
-      - whittaker-network
-    restart: unless-stopped
-
-  certbot:                                         # ← SSL certificate management
-    image: certbot/certbot
-    container_name: whittaker-certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-volumes:
-  whittaker_mariadb_data:
-  whittaker_uploads:
-
-networks:
-  whittaker-network:
-    driver: bridge
-```
-
-**Key Features:**
-- ✅ No exposed ports (except nginx 80/443)
-- ✅ Environment variables from .env file
-- ✅ SSL/HTTPS with Let's Encrypt
-- ✅ Auto-restart on failure
-- ✅ No source code mounts (security)
-- ✅ Optimized build (multi-stage Dockerfile)
+**Key differences:**
+- No exposed ports except nginx 80/443
+- Environment variables from .env file
+- HTTPS with SSL/Let's Encrypt
+- Auto-restart on failure
+- No source code mounts
+- No reload flag
+- Strong passwords required
+- Debug mode OFF
 
 ---
 

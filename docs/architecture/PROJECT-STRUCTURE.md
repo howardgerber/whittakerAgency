@@ -1,437 +1,341 @@
-# Project Structure
+# Project Structure and Organization
 
-**Project:** Whittaker Agency
-**Created:** 2025-10-23
+## Overview
+Standard project structure, naming conventions, and organizational patterns.
 
----
-
-## Directory Layout
+## Directory Structure
 
 ```
-KylesWebsite/
-├── backend/                          # FastAPI Python backend
-│   ├── app/
-│   │   ├── routers/                  # API route handlers (thin controllers)
-│   │   │   ├── __init__.py
-│   │   │   ├── auth.py              # POST /auth/register, /auth/login
-│   │   │   ├── quotes.py            # Quote request endpoints
-│   │   │   ├── claims.py            # Claim request endpoints
-│   │   │   ├── contact.py           # Contact form endpoints
-│   │   │   ├── team.py              # Team members (public)
-│   │   │   └── users.py             # User profile endpoints
-│   │   │
-│   │   ├── services/                 # Business logic layer
-│   │   │   ├── __init__.py
-│   │   │   ├── auth_service.py      # Registration, login, JWT
-│   │   │   ├── quote_service.py     # Quote request logic
-│   │   │   ├── claim_service.py     # Claim request logic
-│   │   │   ├── contact_service.py   # Contact message logic
-│   │   │   ├── team_service.py      # Team member CRUD
-│   │   │   ├── user_service.py      # User profile management
-│   │   │   ├── system_log_service.py # System logging
-│   │   │   ├── audit_log_service.py  # Audit logging
-│   │   │   └── email_service.py     # Brevo email integration
-│   │   │
-│   │   ├── models/                   # SQLAlchemy ORM models
-│   │   │   ├── __init__.py
-│   │   │   ├── user.py              # User table
-│   │   │   ├── quote_request.py     # Quote requests table
-│   │   │   ├── claim_request.py     # Claim requests table
-│   │   │   ├── contact_message.py   # Contact messages table
-│   │   │   ├── team_member.py       # Team members table
-│   │   │   ├── system_log.py        # System logs table
-│   │   │   └── audit_log.py         # Audit logs table
-│   │   │
-│   │   ├── schemas/                  # Pydantic validation schemas
-│   │   │   ├── __init__.py
-│   │   │   ├── auth.py              # UserRegister, UserLogin, Token
-│   │   │   ├── quote.py             # QuoteRequestCreate, QuoteRequestResponse
-│   │   │   ├── claim.py             # ClaimRequestCreate, ClaimRequestResponse
-│   │   │   ├── contact.py           # ContactMessageCreate
-│   │   │   ├── team.py              # TeamMemberResponse
-│   │   │   └── user.py              # UserProfile, UserUpdate
-│   │   │
-│   │   ├── middleware/               # Custom middleware
-│   │   │   ├── __init__.py
-│   │   │   ├── exception_handler.py # GlobalExceptionMiddleware
-│   │   │   └── logging_middleware.py # Request/response logging
-│   │   │
-│   │   ├── core/                     # Core configuration
-│   │   │   ├── __init__.py
-│   │   │   ├── config.py            # Environment settings
-│   │   │   ├── database.py          # DB connection, sessions
-│   │   │   ├── security.py          # JWT, password hashing
-│   │   │   └── logging_config.py    # Logging setup
-│   │   │
-│   │   ├── utils/                    # Utility functions
-│   │   │   ├── __init__.py
-│   │   │   ├── email.py             # Email helpers
-│   │   │   └── validators.py        # Custom validators
-│   │   │
-│   │   └── main.py                   # FastAPI app entry point
-│   │
-│   ├── alembic/                      # Database migrations
-│   │   ├── versions/                # Migration files
-│   │   ├── env.py                   # Alembic environment
-│   │   └── alembic.ini              # Alembic config
-│   │
-│   ├── tests/                        # Backend tests
-│   │   ├── unit/                    # Unit tests (services)
-│   │   ├── integration/             # Integration tests (full stack)
-│   │   └── conftest.py              # Pytest configuration
-│   │
-│   ├── requirements.txt              # Python dependencies
-│   ├── .env.example                  # Example environment variables
-│   └── Dockerfile                    # Backend Docker image
-│
-├── frontend/                         # Vue 3 frontend
-│   ├── src/
-│   │   ├── components/              # Reusable Vue components
-│   │   │   ├── common/              # Shared components
-│   │   │   │   ├── AppHeader.vue
-│   │   │   │   ├── AppFooter.vue
-│   │   │   │   ├── TopNav.vue       # Top navigation option
-│   │   │   │   ├── LeftNav.vue      # Left navigation option
-│   │   │   │   ├── LoadingSpinner.vue
-│   │   │   │   └── ErrorMessage.vue
-│   │   │   │
-│   │   │   ├── forms/               # Form components
-│   │   │   │   ├── QuoteRequestForm.vue
-│   │   │   │   ├── ClaimRequestForm.vue
-│   │   │   │   ├── ContactForm.vue
-│   │   │   │   └── LoginForm.vue
-│   │   │   │
-│   │   │   └── cards/               # Card components
-│   │   │       ├── ServiceCard.vue
-│   │   │       ├── TeamMemberCard.vue
-│   │   │       └── RequestStatusCard.vue
-│   │   │
-│   │   ├── views/                   # Page components (routes)
-│   │   │   ├── HomePage.vue
-│   │   │   ├── ServicesPage.vue
-│   │   │   ├── TeamPage.vue
-│   │   │   ├── QuoteRequestPage.vue
-│   │   │   ├── ClaimsProcessPage.vue
-│   │   │   ├── OpenClaimPage.vue
-│   │   │   ├── ContactPage.vue
-│   │   │   ├── LoginPage.vue
-│   │   │   ├── RegisterPage.vue
-│   │   │   └── DashboardPage.vue
-│   │   │
-│   │   ├── router/                  # Vue Router configuration
-│   │   │   └── index.ts
-│   │   │
-│   │   ├── stores/                  # Pinia state management
-│   │   │   ├── auth.ts              # Authentication state
-│   │   │   ├── quotes.ts            # Quote requests state
-│   │   │   ├── claims.ts            # Claim requests state
-│   │   │   └── user.ts              # User profile state
-│   │   │
-│   │   ├── services/                # API client services
-│   │   │   ├── api.ts               # Axios instance
-│   │   │   ├── authService.ts       # Auth API calls
-│   │   │   ├── quoteService.ts      # Quote API calls
-│   │   │   ├── claimService.ts      # Claim API calls
-│   │   │   ├── contactService.ts    # Contact API calls
-│   │   │   └── teamService.ts       # Team API calls
-│   │   │
-│   │   ├── assets/                  # Static assets
-│   │   │   ├── images/              # Images
-│   │   │   │   ├── mt-hood.jpg      # Hero image
-│   │   │   │   ├── oregon-stag.jpg  # Stag sign
-│   │   │   │   └── placeholder.jpg
-│   │   │   │
-│   │   │   └── styles/              # Global styles
-│   │   │       ├── main.css         # Global CSS
-│   │   │       ├── variables.css    # CSS variables (colors)
-│   │   │       └── reset.css        # CSS reset
-│   │   │
-│   │   ├── types/                   # TypeScript type definitions
-│   │   │   ├── auth.ts
-│   │   │   ├── quote.ts
-│   │   │   ├── claim.ts
-│   │   │   └── user.ts
-│   │   │
-│   │   ├── App.vue                  # Root Vue component
-│   │   └── main.ts                  # Vue app entry point
-│   │
-│   ├── public/                      # Public static files
-│   │   ├── favicon.ico
-│   │   └── robots.txt
-│   │
-│   ├── index.html                   # HTML template
-│   ├── package.json                 # NPM dependencies
-│   ├── vite.config.ts               # Vite configuration
-│   ├── tsconfig.json                # TypeScript configuration
-│   └── Dockerfile                   # Frontend Docker image
-│
-├── docker/                          # Docker configuration files
-│   ├── nginx.conf                   # Production nginx config (HTTPS, SSL)
-│   ├── nginx.dev.conf               # Development nginx config (HTTP only)
-│   └── init.sql                     # Database initialization SQL
-│
-├── docs/                            # Project documentation
-│   ├── api/                         # API endpoint documentation
-│   │   ├── auth-endpoints.md
-│   │   ├── quote-endpoints.md
-│   │   └── ...
-│   │
-│   ├── sessions/                    # Session notes
-│   │   ├── 2025-10-23-session.md
-│   │   └── ...
-│   │
-│   ├── architecture/                # Architecture documentation
-│   │   ├── BACKEND-PATTERNS.md
-│   │   ├── PROJECT-STRUCTURE.md
-│   │   └── DATABASE-DESIGN.md
-│   │
-│   ├── templates/                   # Documentation templates
-│   │   ├── api-endpoint-template.md
-│   │   └── session-notes-template.md
-│   │
-│   └── DESIGN.md                    # Main design document
-│
-├── docker-compose.yml               # Production Docker Compose (default)
-├── docker-compose.dev.yml           # Development Docker Compose
-├── .gitignore                       # Git ignore rules
-├── .env.example                     # Example production environment file
-├── .env.dev.example                 # Example development environment file
-└── README.md                        # Project README
+ProjectName/
+├── Controllers/              # API endpoints (thin, NO business logic)
+├── Services/                 # ALL business logic
+│   ├── Business/            # Domain services (Users/, Products/, Orders/)
+│   ├── Infrastructure/      # Cross-cutting (Email/, Storage/, Logging/)
+│   └── External/            # External APIs (Payment/, SMS/)
+├── Models/                  # Database entities
+├── DTOs/                    # Data Transfer Objects (Requests/, Responses/)
+├── Data/                    # DbContext, Configurations/, Migrations/
+├── Middleware/              # GlobalExceptionMiddleware, etc.
+├── Utilities/               # ⭐ Shared utilities (Validation/, Formatting/, Constants/)
+├── Tests/                   # Unit/, Integration/, Mocks/
+└── docs/                    # Documentation
+
+Frontend/
+├── src/
+│   ├── components/          # Reusable Vue components
+│   ├── views/               # Page-level components
+│   ├── services/            # API client
+│   ├── utils/               # ⭐ Shared utilities (validation.js, formatting.js, constants.js)
+│   ├── router/              # Routes
+│   └── stores/              # Pinia stores
 ```
 
----
+## Shared Code & Utilities (DRY Principle)
 
-## Key Directories Explained
+**Rule**: If code appears in 2+ places, extract it to a shared utility.
 
-### Backend Structure
+### Backend: Utilities/ Folder
 
-**`app/routers/`** - Thin controllers that handle HTTP routing
-- Define API endpoints
-- Call service layer methods
-- Return responses
-- No business logic
+```csharp
+// Utilities/ValidationHelper.cs
+public static class ValidationHelper
+{
+    public static bool IsValidEmail(string email) =>
+        Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+}
 
-**`app/services/`** - Business logic layer
-- All business rules
-- Data validation
-- Database operations
-- Exception throwing
+// Utilities/FormatHelper.cs
+public static class FormatHelper
+{
+    public static string FormatPhone(string phone) =>
+        phone?.Length == 10 ? $"({phone[..3]}) {phone[3..6]}-{phone[6..]}" : phone ?? "";
+}
 
-**`app/models/`** - SQLAlchemy ORM models
-- Database table definitions
-- Relationships
-- Constraints
+// Utilities/AppConstants.cs
+public static class AppConstants
+{
+    public const int MaxProductNameLength = 200;
+    public static class ErrorMessages
+    {
+        public const string InvalidEmail = "Invalid email address format";
+    }
+}
 
-**`app/schemas/`** - Pydantic validation models
-- Request validation
-- Response serialization
-- Type safety
-
-**`app/middleware/`** - Custom middleware
-- Global exception handling
-- Request/response logging
-- CORS configuration
-
-**`app/core/`** - Core configuration
-- Settings management
-- Database connection
-- Security (JWT, password hashing)
-
-### Frontend Structure
-
-**`src/views/`** - Page components (one per route)
-- Full page layouts
-- Compose smaller components
-- Handle route-level logic
-
-**`src/components/`** - Reusable components
-- Small, focused components
-- Presentational logic
-- Shared across views
-
-**`src/stores/`** - Pinia state management
-- Global application state
-- Authentication state
-- User data caching
-
-**`src/services/`** - API client services
-- HTTP requests to backend
-- Error handling
-- Response transformation
-
-**`src/router/`** - Vue Router configuration
-- Route definitions
-- Navigation guards
-- Route meta (auth required)
-
----
-
-## File Naming Conventions
-
-### Backend (Python)
-
-- **Files:** `snake_case.py`
-- **Classes:** `PascalCase`
-- **Functions:** `snake_case()`
-- **Variables:** `snake_case`
-- **Constants:** `UPPER_SNAKE_CASE`
-
-### Frontend (TypeScript/Vue)
-
-- **Files:** `PascalCase.vue`, `camelCase.ts`
-- **Components:** `PascalCase.vue`
-- **Composables:** `use*.ts`
-- **Services:** `*Service.ts`
-- **Stores:** `camelCase.ts`
-- **Types:** `PascalCase` interfaces
-
----
-
-## Environment Configuration
-
-### Development
-
-**Backend** - `.env`:
-```
-DATABASE_URL=mysql+pymysql://whittaker_user:SecureW@Pa55!2025@db:3306/whittaker_agency
-JWT_SECRET_KEY=dev-secret-key-change-in-production
-ENVIRONMENT=development
-BREVO_API_KEY=stub
+// Services use shared utilities
+public class UserService : IUserService
+{
+    public async Task<UserDto> CreateUserAsync(CreateUserDto dto)
+    {
+        if (!ValidationHelper.IsValidEmail(dto.Email))
+            throw new ArgumentException(AppConstants.ErrorMessages.InvalidEmail);
+        // ...
+    }
+}
 ```
 
-**Frontend** - `.env`:
-```
-VITE_API_BASE_URL=http://localhost:8082/api/v1
-```
+### Frontend: src/utils/ Folder
 
-### Production
+```javascript
+// src/utils/validation.js
+export const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-**Backend** - `.env.production`:
-```
-DATABASE_URL=mysql+pymysql://whittaker_user:SecureW@Pa55!2025@db:3306/whittaker_agency
-JWT_SECRET_KEY=<generate-secure-random-key>
-ENVIRONMENT=production
-BREVO_API_KEY=<actual-brevo-api-key>
-BREVO_SENDER_EMAIL=noreply@whittakeragency.com
-BREVO_ADMIN_EMAIL=admin@whittakeragency.com
-```
+// src/utils/formatting.js
+export const formatPhone = (phone) => {
+  const cleaned = phone.replace(/\D/g, '');
+  return cleaned.length === 10 ? `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}` : phone;
+};
 
-**Frontend** - `.env.production`:
-```
-VITE_API_BASE_URL=https://whittakeragency.com/api/v1
-```
+// src/utils/constants.js
+export const ERROR_MESSAGES = {
+  INVALID_EMAIL: 'Invalid email address format'
+};
 
----
-
-## Docker Configuration
-
-### Development Stack
-
-**Services:**
-1. **MariaDB** - Port 3310 (external)
-2. **FastAPI** - Port 5102 (internal)
-3. **nginx** - Port 8082 (serves Vue + proxies API)
-
-**Optional:**
-- **Vite** - Port 3003 (hot reload for UI development)
-
-### Production Stack
-
-**Services:**
-1. **MariaDB** - Internal only
-2. **FastAPI** - Internal port 5000
-3. **nginx** - Ports 80/443 (SSL termination)
-
----
-
-## Database Migrations
-
-**Tool:** Alembic
-
-**Create migration:**
-```bash
-cd backend
-alembic revision --autogenerate -m "Description"
+// Components import shared utilities
+import { isValidEmail } from '@/utils/validation';
+import { formatPhone } from '@/utils/formatting';
+import { ERROR_MESSAGES } from '@/utils/constants';
 ```
 
-**Apply migrations:**
-```bash
-alembic upgrade head
+### What to Share
+
+| Type | Backend | Frontend |
+|---|---|---|
+| **Validation** | `ValidationHelper.cs` | `validation.js` |
+| **Formatting** | `FormatHelper.cs` | `formatting.js` |
+| **Constants** | `AppConstants.cs` | `constants.js` |
+| **API Config** | `appsettings.json` | `api.js` |
+
+### When to Extract
+
+- Same regex/logic in 2+ services/components
+- Common formatting (dates, currency, phone)
+- Repeated error messages or constants
+- Shared business rules (max lengths, price limits)
+
+## Naming Conventions
+
+| Element | Pattern | Examples |
+|---|---|---|
+| **Controllers** | Plural, PascalCase | `ProductsController.cs`, `UsersController.cs` |
+| **Services (Interface)** | `I` + Singular | `IProductService.cs`, `IEmailService.cs` |
+| **Services (Impl)** | Singular, PascalCase | `ProductService.cs`, `UserService.cs` |
+| **Models** | Singular, PascalCase | `Product.cs`, `User.cs`, `Order.cs` |
+| **DTOs** | Action/Purpose + Entity + `Dto` | `CreateProductDto.cs`, `ProductDto.cs` |
+| **Tests** | Subject + `Tests` | `ProductServiceTests.cs` |
+| **Methods** | PascalCase + `Async` | `GetProductAsync()`, `CreateOrderAsync()` |
+| **Properties** | PascalCase | `ProductId`, `Name`, `Price` |
+| **Private Fields** | `_` + camelCase | `_productService`, `_context`, `_logger` |
+| **Local Variables** | camelCase | `productDto`, `userId`, `userName` |
+| **Constants** | PascalCase | `MaxPageSize`, `DefaultCurrency` |
+
+## Layer Responsibilities
+
+| Layer | What It Does | What It DOESN'T Do |
+|---|---|---|
+| **Controllers** | Extract request data, call services, return responses | NO business logic, NO validation, NO try-catch |
+| **Services** | Validation, business rules, data access, audit logging | NO HTTP concerns, NO presentation logic |
+| **Data** | Entity definitions, DbContext, migrations | NO business logic |
+| **DTOs** | Data contracts, validation attributes | NO business logic |
+
+```csharp
+// Controller - thin, no logic
+[HttpGet("{id}")]
+public async Task<ActionResult<ProductDto>> GetProduct(int id)
+{
+    var product = await _productService.GetProductAsync(id);
+    return product == null ? NotFound() : Ok(product);
+}
+
+// Service - ALL business logic
+public async Task<ProductDto> CreateProductAsync(CreateProductDto dto)
+{
+    if (string.IsNullOrWhiteSpace(dto.Name))
+        throw new ArgumentException("Name required");
+
+    var product = new Product { Name = dto.Name, Price = dto.Price };
+    _context.Products.Add(product);
+    await _context.SaveChangesAsync();
+    return MapToDto(product);
+}
 ```
 
-**Rollback:**
-```bash
-alembic downgrade -1
+## Dependency Injection
+
+**Service Lifetimes:**
+```csharp
+// Scoped - per HTTP request (business services, DbContext)
+services.AddScoped<IProductService, ProductService>();
+services.AddScoped<IUserService, UserService>();
+
+// Singleton - application lifetime (email, config)
+services.AddSingleton<IEmailService, EmailService>();
+
+// Transient - new instance every time (lightweight services)
+services.AddTransient<IAuditService, AuditService>();
+
+// Separate logging context (critical!)
+services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connStr));
+services.AddDbContext<LoggingDbContext>(options => options.UseSqlServer(logConnStr));
 ```
 
----
+**Constructor Injection:**
+```csharp
+public class ProductService : IProductService
+{
+    private readonly AppDbContext _context;
+    private readonly IAuditService _auditService;
 
-## Development Workflow
-
-### Starting Development Environment
-
-```bash
-# Start all services
-docker-compose up
-
-# Access points:
-# - Frontend: http://localhost:8082
-# - API: http://localhost:8082/api/v1
-# - API Docs: http://localhost:5102/docs
-# - Database: localhost:3310
+    public ProductService(AppDbContext context, IAuditService auditService)
+    {
+        _context = context;
+        _auditService = auditService;
+    }
+}
 ```
 
-### Optional: Vite Dev Server (UI-heavy work)
+## Configuration
 
-```bash
-cd frontend
-npm run dev
-# Access: http://localhost:3003
+**appsettings.json structure:**
+```json
+{
+  "ConnectionStrings": { "DefaultConnection": "...", "LoggingConnection": "..." },
+  "AppSettings": { "FrontendUrl": "...", "ApiBaseUrl": "..." },
+  "Email": { "ApiKey": "...", "FromAddress": "noreply@example.com" },
+  "Jwt": { "SecretKey": "...", "Issuer": "...", "ExpirationMinutes": 60 }
+}
 ```
 
----
+**Usage:**
+```csharp
+// Direct: var url = _configuration["AppSettings:FrontendUrl"];
 
-## API Documentation
-
-**Auto-generated:** FastAPI provides automatic OpenAPI documentation
-
-**Access:**
-- **Swagger UI:** http://localhost:5102/docs
-- **ReDoc:** http://localhost:5102/redoc
-
-**Manual documentation:** Store in `docs/api/` using template
-
----
-
-## Testing Strategy
-
-### Backend Tests
-
-**Unit Tests:**
-```bash
-cd backend
-pytest tests/unit/
+// Strongly-typed (preferred):
+services.Configure<EmailSettings>(configuration.GetSection("Email"));
+public EmailService(IOptions<EmailSettings> settings) => _settings = settings.Value;
 ```
 
-**Integration Tests:**
-```bash
-pytest tests/integration/
+## Database
+
+**Entity Conventions:**
+```csharp
+public class Product
+{
+    public int Id { get; set; }                          // PK, auto-increment
+    public string Name { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }             // Nullable = optional
+
+    // Navigation properties
+    public int CategoryId { get; set; }
+    public Category Category { get; set; } = null!;
+    public ICollection<OrderItem> OrderItems { get; set; } = new();
+}
 ```
 
-### Frontend Tests
-
-**Component Tests:**
-```bash
-cd frontend
-npm run test:unit
+**Entity Configuration:**
+```csharp
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
+{
+    public void Configure(EntityTypeBuilder<Product> builder)
+    {
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
+        builder.Property(p => p.Price).HasColumnType("decimal(18,2)");
+        builder.HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
+        builder.HasIndex(p => p.Name);
+    }
+}
 ```
 
-**E2E Tests:**
-```bash
-npm run test:e2e
+## Testing
+
+**Unit Tests** - Mock dependencies:
+```csharp
+public class ProductServiceTests
+{
+    private readonly Mock<AppDbContext> _mockContext;
+    private readonly ProductService _service;
+
+    [Fact]
+    public async Task CreateProduct_WithValidData_ShouldCreateProduct()
+    {
+        var dto = new CreateProductDto { Name = "Test", Price = 10 };
+        var result = await _service.CreateProductAsync(dto);
+        Assert.Equal("Test", result.Name);
+    }
+
+    [Fact]
+    public async Task CreateProduct_WithEmptyName_ShouldThrowArgumentException()
+    {
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            _service.CreateProductAsync(new CreateProductDto { Name = "", Price = 10 }));
+    }
+}
 ```
 
----
+**Integration Tests** - Test full stack with in-memory DB:
+```csharp
+public class ProductsIntegrationTests : IDisposable
+{
+    private readonly HttpClient _client;
 
-**Document Version:** 1.0
-**Last Updated:** 2025-10-23
+    public ProductsIntegrationTests()
+    {
+        var factory = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(b => b.ConfigureServices(s =>
+                s.AddDbContext<AppDbContext>(o => o.UseInMemoryDatabase("TestDb"))));
+        _client = factory.CreateClient();
+    }
+
+    [Fact]
+    public async Task POST_Products_WithValidData_ShouldReturn201()
+    {
+        var response = await _client.PostAsJsonAsync("/api/products",
+            new CreateProductDto { Name = "Test", Price = 10 });
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+    }
+}
+```
+
+## Documentation Structure
+```
+docs/
+├── architecture/     # exception-handling-pattern.md, service-layer-patterns.md, project-structure.md
+├── api/             # endpoints.md, authentication.md
+├── database/        # schema.md, migrations.md
+├── deployment/      # production.md, docker.md
+└── sessions/        # 2025-01-15-feature-implementation.md
+```
+
+## Git Workflow
+**Branches**: `feature/name`, `bugfix/name`, `hotfix/name`, `refactor/name`
+
+**Commits**: Descriptive messages
+```
+Add user authentication feature
+Fix login validation bug
+Update product service exception handling
+```
+
+## Code Organization
+
+**File Size Guidelines:**
+- Controllers: < 200 lines
+- Services: < 500 lines (split if larger)
+- Models: < 100 lines
+- DTOs: < 50 lines
+
+**Folder Depth**: Max 3-4 levels, group by domain not technical type (`Services/Business/Products/` not `Services/Products/Business/`)
+
+**Avoid Regions**: Organize naturally, split files if needed
+
+## Anti-Patterns
+
+| Anti-Pattern | Problem | Solution |
+|---|---|---|
+| God objects | One service does everything | Split into focused services per domain |
+| Circular dependencies | A→B and B→A | Extract shared logic to third service |
+| Leaky abstractions | Service returns entities | Always return DTOs from services |
+| New in services | `new EmailService()` | Use constructor injection |

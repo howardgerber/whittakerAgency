@@ -368,10 +368,6 @@ git commit -m "Complete project planning and documentation
 - Update PORT-ALLOCATION.md with Whittaker Agency entries
 - Establish database schema (8 tables)
 - Define Docker containerization strategy
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ---

@@ -27,59 +27,41 @@
 
 ## Executive Summary
 
-Whittaker Agency is an independent Allstate insurance agency serving the Portland, Oregon area. This website provides a professional online presence for potential and existing clients to learn about services, request insurance quotes, file claims, and contact the agency with questions.
+Professional website for Whittaker Agency (Allstate) serving Portland, Oregon.
 
-**Key Objectives:**
-- Professional, trustworthy online presence
-- Streamline quote request process
-- Provide claims information and basic claim filing
-- Build client trust through team transparency
-- Maintain security by NOT collecting sensitive personal information
-- Showcase local Oregon connection
+**Core features:**
+- Request insurance quotes
+- File claims
+- Contact agency
+- Meet the team
 
-**Target Audience:**
-- Portland-area residents seeking insurance
-- Families needing auto, home, life insurance
-- Small businesses needing commercial coverage
-- Recreational vehicle owners (boat, motorcycle, RV)
+**Security:** No sensitive PII collected (SSN, license numbers, etc.)
+
+**Target:** Portland-area families and businesses needing insurance coverage
 
 ---
 
 ## Business Requirements
 
-### Insurance Types Offered
-1. Auto Insurance
-2. Home Insurance
-3. Business Insurance
-4. Life Insurance
-5. Health Insurance
-6. Motorcycle Insurance
-7. Boat Insurance
-8. Rental Property Insurance
+### Insurance Categories
+See [docs/architecture/CATEGORIES.md](architecture/CATEGORIES.md) for complete structure.
 
-### Core Functionality
+**Main categories:** Vehicle, Property, Life, Business, Identity Protection, Other
 
-**Public Features:**
-- View insurance services
-- Meet the team
-- Claims process walkthrough (educational)
+### Features
+
+**Public:**
+- Browse services
+- View team
+- Claims walkthrough
 - Contact form
 
-**Authenticated Features:**
-- Request a quote (basic info only - no sensitive data)
-- Open a claim (basic info only)
-- User dashboard (view submitted requests)
-- Message history
+**Authenticated:**
+- Request quotes
+- File claims
+- View dashboard
 
-**Important Security Constraint:**
-- Website will NOT collect SSN, driver's license numbers, bank info, or other sensitive PII
-- Quote/claim requests are "intent to start" notifications for the agent
-- Actual detailed information collected in-person or via secure channels
-
-**Allstate Compliance:**
-- Cannot use "Allstate" branding without approval
-- Can use Allstate-inspired color scheme
-- Must be generic enough to avoid approval process initially
+**Security constraint:** No SSN, license numbers, or bank info collected. Quotes/claims are "intent to start" only.
 
 ---
 
