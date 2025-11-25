@@ -6,13 +6,14 @@
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email" class="form-label">Email</label>
+          <label for="username" class="form-label">Username</label>
           <input
-            id="email"
-            v-model="form.email"
-            type="email"
+            id="username"
+            v-model="form.username"
+            type="text"
             class="form-input"
             required
+            placeholder="Enter your username"
           />
         </div>
 
@@ -53,7 +54,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const form = ref({
-  email: '',
+  username: '',
   password: ''
 })
 

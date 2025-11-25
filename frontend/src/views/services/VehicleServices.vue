@@ -320,7 +320,7 @@
           <p>Our vehicle insurance experts are here to help you find the perfect coverage.</p>
           <div class="cta-buttons">
             <RouterLink v-if="!authStore.isAuthenticated" to="/register" class="btn btn-primary btn-lg">Get a Quote</RouterLink>
-            <a href="tel:+15035551234" class="btn btn-outline btn-lg">Call (503) 555-1234</a>
+            <a href="tel:+15036205999" class="btn btn-outline btn-lg">Call (503) 620-5999</a>
           </div>
         </section>
       </main>
@@ -403,7 +403,7 @@ const scrollToSection = (sectionId: string) => {
 
 .sidebar-header {
   padding: var(--spacing-lg);
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -482,7 +482,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .back-link:hover {
-  color: #1a4d2e;
+  color: var(--color-primary-dark);
 }
 
 /* Main Content */
@@ -545,7 +545,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .cta-box {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: #f8f9fa;
   padding: var(--spacing-md);
   border-radius: 8px;
   margin-top: var(--spacing-md);
@@ -602,7 +602,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .btn-primary:hover {
-  background: #1a4d2e;
+  background: var(--color-primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -629,7 +629,7 @@ const scrollToSection = (sectionId: string) => {
 
 /* Option 1: Colored Section Headers */
 .style-option-1 .section-header-colored {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   padding: var(--spacing-md);
   border-radius: 12px;
   margin-bottom: var(--spacing-md);
@@ -650,7 +650,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .style-option-1 .colored-subheader {
-  background: linear-gradient(135deg, rgba(47, 79, 79, 0.1) 0%, rgba(26, 77, 46, 0.1) 100%);
+  background: rgba(0, 61, 165, 0.1);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 8px;
   border-left: 4px solid var(--color-primary);
@@ -658,7 +658,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .style-option-1 .gradient-cta {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   color: white;
 }
 
@@ -691,12 +691,12 @@ const scrollToSection = (sectionId: string) => {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto var(--spacing-md);
-  box-shadow: 0 8px 24px rgba(47, 79, 79, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 61, 165, 0.2);
 }
 
 .style-option-3 .icon-circle .section-icon {
@@ -721,7 +721,7 @@ const scrollToSection = (sectionId: string) => {
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-md);
   padding: var(--spacing-md);
-  background: linear-gradient(135deg, rgba(47, 79, 79, 0.05) 0%, rgba(26, 77, 46, 0.05) 100%);
+  background: rgba(0, 61, 165, 0.05);
   border-radius: 12px;
   border: 2px solid var(--color-primary);
 }
@@ -730,12 +730,12 @@ const scrollToSection = (sectionId: string) => {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(47, 79, 79, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 61, 165, 0.3);
 }
 
 .style-option-5 .icon-circle-large .section-icon {
@@ -767,7 +767,7 @@ const scrollToSection = (sectionId: string) => {
 
 .style-option-5 .feature-box:hover {
   border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(47, 79, 79, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 61, 165, 0.1);
 }
 
 .style-option-5 .feature-box h3 {
@@ -779,7 +779,7 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .style-option-5 .gradient-cta {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   color: white;
 }
 
@@ -794,7 +794,7 @@ const scrollToSection = (sectionId: string) => {
 
 /* Option 1+2: Combined Colored Headers and Accent Cards */
 .style-option-1-2 .section-header-colored {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 8px;
   margin-bottom: var(--spacing-md);
@@ -822,13 +822,13 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .style-option-1-2 .colored-subheader {
-  background: linear-gradient(135deg, rgba(47, 79, 79, 0.1) 0%, rgba(26, 77, 46, 0.1) 100%);
+  background: rgba(0, 61, 165, 0.1);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 6px;
 }
 
 .style-option-1-2 .gradient-cta {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   color: white;
 }
 
@@ -845,7 +845,6 @@ const scrollToSection = (sectionId: string) => {
 .nav-item.active {
   background: var(--color-primary);
   color: white;
-  border-left: 4px solid #1a4d2e;
   font-weight: 600;
 }
 

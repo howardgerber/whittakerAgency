@@ -13,8 +13,9 @@
         <div class="footer-section">
           <h4>Contact Us</h4>
           <p><a href="mailto:info@whittakeragency.com">info@whittakeragency.com</a></p>
-          <p><a href="tel:+15035551234">(503) 555-1234</a></p>
-          <p>Hours: Mon-Fri 9AM-5PM PST</p>
+          <p><a href="tel:+15036205999">(503) 620-5999</a></p>
+          <p>Hours: Mon-Fri 8AM-5PM</p>
+          <p>Sat-Sun: By appointment</p>
         </div>
 
         <!-- Quick Links -->
@@ -71,9 +72,25 @@ const authStore = useAuthStore()
 <style scoped>
 .footer {
   background-color: #2c3e50;
+  background-image: url('/images/oregon-stag.jpg');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
   color: white;
   padding: var(--spacing-xl) 0 var(--spacing-md);
   margin-top: var(--spacing-xl);
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(44, 62, 80, 0.92);
+  pointer-events: none;
 }
 
 .footer-content {
@@ -81,6 +98,8 @@ const authStore = useAuthStore()
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-xl);
   margin-bottom: var(--spacing-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .footer-section h3 {
@@ -146,6 +165,8 @@ const authStore = useAuthStore()
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-md);
+  position: relative;
+  z-index: 1;
 }
 
 .footer-bottom p {

@@ -15,10 +15,36 @@
         <RouterLink to="/about" class="nav-link">About</RouterLink>
         <RouterLink to="/team" class="nav-link">Team</RouterLink>
 
+        <!-- Admin Menu (Admin Only) -->
+        <template v-if="authStore.isAdmin">
+          <div class="user-menu">
+            <button class="user-menu-btn admin-menu-btn" @click="toggleAdminMenu">
+              <span class="user-name">Admin</span>
+              <span class="dropdown-icon">▼</span>
+            </button>
+
+            <div v-if="showAdminMenu" class="user-dropdown">
+              <RouterLink to="/admin" class="dropdown-item" @click="closeAdminMenu">
+                Dashboard
+              </RouterLink>
+              <RouterLink to="/admin/quotes" class="dropdown-item" @click="closeAdminMenu">
+                Quotes
+              </RouterLink>
+              <RouterLink to="/admin/claims" class="dropdown-item" @click="closeAdminMenu">
+                Claims
+              </RouterLink>
+              <RouterLink to="/admin/messages" class="dropdown-item" @click="closeAdminMenu">
+                Messages
+              </RouterLink>
+            </div>
+          </div>
+        </template>
+
         <!-- User Menu (Authenticated) -->
         <template v-if="authStore.isAuthenticated">
           <div class="user-menu">
             <button class="user-menu-btn" @click="toggleUserMenu">
+              <img src="/images/icons/users.png" alt="User" class="user-icon" />
               <span class="user-name">{{ authStore.user?.full_name }}</span>
               <span class="dropdown-icon">▼</span>
             </button>
@@ -26,12 +52,6 @@
             <div v-if="showUserMenu" class="user-dropdown">
               <RouterLink to="/dashboard" class="dropdown-item" @click="closeUserMenu">
                 Dashboard
-              </RouterLink>
-              <RouterLink to="/quotes" class="dropdown-item" @click="closeUserMenu">
-                My Quotes
-              </RouterLink>
-              <RouterLink to="/claims" class="dropdown-item" @click="closeUserMenu">
-                My Claims
               </RouterLink>
               <button class="dropdown-item logout-btn" @click="handleLogout">
                 Logout
@@ -67,8 +87,14 @@
       <template v-if="authStore.isAuthenticated">
         <div class="mobile-divider"></div>
         <RouterLink to="/dashboard" class="nav-link-mobile" @click="closeMobileMenu">Dashboard</RouterLink>
-        <RouterLink to="/quotes" class="nav-link-mobile" @click="closeMobileMenu">My Quotes</RouterLink>
-        <RouterLink to="/claims" class="nav-link-mobile" @click="closeMobileMenu">My Claims</RouterLink>
+        <template v-if="authStore.isAdmin">
+          <div class="mobile-divider"></div>
+          <div class="mobile-admin-label">Admin</div>
+          <RouterLink to="/admin" class="nav-link-mobile" @click="closeMobileMenu">Admin Dashboard</RouterLink>
+          <RouterLink to="/admin/quotes" class="nav-link-mobile" @click="closeMobileMenu">Admin Quotes</RouterLink>
+          <RouterLink to="/admin/claims" class="nav-link-mobile" @click="closeMobileMenu">Admin Claims</RouterLink>
+          <RouterLink to="/admin/messages" class="nav-link-mobile" @click="closeMobileMenu">Admin Messages</RouterLink>
+        </template>
         <button class="nav-link-mobile logout-btn-mobile" @click="handleLogout">Logout</button>
       </template>
       <template v-else>
@@ -90,6 +116,7 @@ const router = useRouter()
 
 const showMobileMenu = ref(false)
 const showUserMenu = ref(false)
+const showAdminMenu = ref(false)
 
 const toggleMobileMenu = () => {
   showMobileMenu.value = !showMobileMenu.value
@@ -107,10 +134,19 @@ const closeUserMenu = () => {
   showUserMenu.value = false
 }
 
+const toggleAdminMenu = () => {
+  showAdminMenu.value = !showAdminMenu.value
+}
+
+const closeAdminMenu = () => {
+  showAdminMenu.value = false
+}
+
 const handleLogout = () => {
   authStore.logout()
   showMobileMenu.value = false
   showUserMenu.value = false
+  showAdminMenu.value = false
   router.push('/login')
 }
 
@@ -119,6 +155,9 @@ const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement
   if (!target.closest('.user-menu') && showUserMenu.value) {
     showUserMenu.value = false
+  }
+  if (!target.closest('.user-menu') && showAdminMenu.value) {
+    showAdminMenu.value = false
   }
 }
 
@@ -212,11 +251,19 @@ onUnmounted(() => {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.user-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Makes icon white */
+}
+
 .user-name {
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--color-white);
 }
 
 .dropdown-icon {
@@ -252,7 +299,7 @@ onUnmounted(() => {
   display: block;
   width: 100%;
   padding: 0.75rem 1rem;
-  color: var(--color-text);
+  color: #333;
   text-decoration: none;
   text-align: left;
   background: none;
@@ -387,6 +434,24 @@ onUnmounted(() => {
 
 .logout-btn-mobile {
   color: #ffcccc;
+}
+
+.mobile-admin-label {
+  color: #ffc107;
+  font-weight: 700;
+  padding: 0.5rem var(--spacing-md);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-menu-btn {
+  background: rgba(255, 193, 7, 0.2) !important;
+  border-left: 3px solid #ffc107;
+}
+
+.admin-menu-btn:hover {
+  background: rgba(255, 193, 7, 0.3) !important;
 }
 
 .btn-mobile {

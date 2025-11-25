@@ -64,7 +64,7 @@
         <p>Contact us today to discuss your insurance needs with one of our expert advisors.</p>
         <div class="cta-buttons">
           <RouterLink v-if="!authStore.isAuthenticated" to="/register" class="btn btn-primary btn-lg">Get a Quote</RouterLink>
-          <a href="tel:+15035551234" class="btn btn-outline btn-lg">Call (503) 555-1234</a>
+          <a href="tel:+15036205999" class="btn btn-outline btn-lg">Call (503) 620-5999</a>
         </div>
       </div>
     </section>
@@ -166,20 +166,27 @@ const teamMembers = [
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: linear-gradient(rgba(0, 61, 165, 0.85), rgba(26, 77, 46, 0.85)), url('/images/oregon-stag.jpg');
+  background-size: cover;
+  background-position: center;
   color: white;
   padding: var(--spacing-xl) 0;
   text-align: center;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
 }
 
 .hero h1 {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-md);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .subtitle {
   font-size: 1.2rem;
   opacity: 0.95;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 /* Team Introduction */

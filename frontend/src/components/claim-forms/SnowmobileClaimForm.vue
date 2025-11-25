@@ -1,0 +1,248 @@
+<template>
+  <div class="snowmobile-claim-form">
+    <h3>Snowmobile Insurance Claim Details</h3>
+
+    <div class="form-group">
+      <label for="incident-type">Type of Incident *</label>
+      <select id="incident-type" v-model="formData.incident_type" required class="form-control">
+        <option value="">Select Incident Type</option>
+        <option value="collision">Collision</option>
+        <option value="rollover">Rollover</option>
+        <option value="avalanche">Avalanche</option>
+        <option value="theft">Theft</option>
+        <option value="vandalism">Vandalism</option>
+        <option value="mechanical_failure">Mechanical Failure</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="incident-location">Location of Incident *</label>
+      <input
+        type="text"
+        id="incident-location"
+        v-model="formData.incident_location"
+        required
+        maxlength="250"
+        :class="['form-control', { 'invalid': touched.incident_location && !isIncidentLocationValid }]"
+        placeholder="General location description"
+        @blur="touched.incident_location = true"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="weather-conditions">Weather Conditions *</label>
+      <select id="weather-conditions" v-model="formData.weather_conditions" required class="form-control">
+        <option value="">Select Weather Conditions</option>
+        <option value="clear">Clear</option>
+        <option value="snowing">Snowing</option>
+        <option value="icy">Icy</option>
+        <option value="blizzard">Blizzard</option>
+        <option value="poor_visibility">Poor Visibility</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Was Another Party Involved? *</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" v-model="formData.other_party_involved" value="yes" /> Yes</label>
+        <label class="radio-label"><input type="radio" v-model="formData.other_party_involved" value="no" /> No</label>
+      </div>
+    </div>
+
+    <div v-if="formData.other_party_involved === 'yes'" class="conditional-section">
+      <h4>Other Party Information</h4>
+      <div class="form-group">
+        <label for="other-party-name">Other Party Full Name *</label>
+        <input
+          type="text"
+          id="other-party-name"
+          v-model="formData.other_party_name"
+          :required="formData.other_party_involved === 'yes'"
+          :class="['form-control', { 'invalid': touched.other_party_name && !isOtherPartyNameValid }]"
+          placeholder="First Last"
+          @blur="touched.other_party_name = true"
+        />
+        <small v-if="touched.other_party_name && !isOtherPartyNameValid" class="error-text">
+          Please enter both first and last name
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="other-party-insurance">Insurance Company</label>
+        <input type="text" id="other-party-insurance" v-model="formData.other_party_insurance" maxlength="100" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="other-party-phone">Other Party Phone</label>
+        <input
+          type="tel"
+          id="other-party-phone"
+          v-model="formData.other_party_phone"
+          @input="handlePhoneInput($event, 'other_party_phone')"
+          :class="['form-control', { 'invalid': touched.other_party_phone && !isOtherPartyPhoneValid }]"
+          placeholder="XXX.XXX.XXXX"
+          @blur="touched.other_party_phone = true"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Were There Any Injuries? *</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" v-model="formData.injuries_sustained" value="yes" /> Yes</label>
+        <label class="radio-label"><input type="radio" v-model="formData.injuries_sustained" value="no" /> No</label>
+      </div>
+    </div>
+
+    <div v-if="formData.injuries_sustained === 'yes'" class="conditional-section">
+      <h4>Injury Information</h4>
+      <div class="form-group">
+        <label>Was Medical Attention Received? *</label>
+        <div class="radio-group">
+          <label class="radio-label"><input type="radio" v-model="formData.medical_attention" value="yes" /> Yes</label>
+          <label class="radio-label"><input type="radio" v-model="formData.medical_attention" value="no" /> No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Is the Snowmobile Operational? *</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" v-model="formData.snowmobile_operational" value="yes" /> Yes</label>
+        <label class="radio-label"><input type="radio" v-model="formData.snowmobile_operational" value="no" /> No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="damage-description">Damage Description *</label>
+      <textarea
+        id="damage-description"
+        v-model="formData.damage_description"
+        rows="4"
+        maxlength="250"
+        required
+        :class="['form-control', { 'invalid': touched.damage_description && !isDamageDescriptionValid }]"
+        placeholder="Describe the damage to your snowmobile"
+        @blur="touched.damage_description = true"
+      ></textarea>
+      <small :class="charCountClass">{{ formData.damage_description.length }}/250 characters</small>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { reactive, watch, computed } from 'vue'
+import { ValidationRules } from '@/utils/validation'
+import { formatPhoneNumber } from '@/utils/formatters'
+
+interface SnowmobileClaimFormData {
+  incident_type: string
+  incident_location: string
+  weather_conditions: string
+  other_party_involved: string
+  other_party_name: string
+  other_party_insurance: string
+  other_party_phone: string
+  injuries_sustained: string
+  medical_attention: string
+  snowmobile_operational: string
+  damage_description: string
+}
+
+const emit = defineEmits<{
+  (e: 'update', data: SnowmobileClaimFormData): void
+  (e: 'valid', isValid: boolean): void
+}>()
+
+const formData = reactive<SnowmobileClaimFormData>({
+  incident_type: '',
+  incident_location: '',
+  weather_conditions: '',
+  other_party_involved: '',
+  other_party_name: '',
+  other_party_insurance: '',
+  other_party_phone: '',
+  injuries_sustained: '',
+  medical_attention: '',
+  snowmobile_operational: '',
+  damage_description: ''
+})
+
+const touched = reactive({
+  incident_location: false,
+  other_party_name: false,
+  other_party_phone: false,
+  damage_description: false
+})
+
+const isIncidentLocationValid = computed(() => formData.incident_location.trim().length >= 3)
+const isOtherPartyNameValid = computed(() => {
+  if (formData.other_party_involved !== 'yes') return true
+  if (!formData.other_party_name.trim()) return false
+  return ValidationRules.fullName.validate(formData.other_party_name).isValid
+})
+const isOtherPartyPhoneValid = computed(() => {
+  if (!formData.other_party_phone.trim()) return true
+  return ValidationRules.phone.validate(formData.other_party_phone).isValid
+})
+const isDamageDescriptionValid = computed(() => formData.damage_description.trim().length >= 50)
+
+const handlePhoneInput = (event: Event, fieldName: string) => {
+  const input = event.target as HTMLInputElement
+  formData[fieldName as keyof SnowmobileClaimFormData] = formatPhoneNumber(input.value) as any
+}
+
+const isFormValid = computed(() => {
+  const baseValid = (
+    formData.incident_type !== '' &&
+    isIncidentLocationValid.value &&
+    formData.weather_conditions !== '' &&
+    formData.other_party_involved !== '' &&
+    formData.injuries_sustained !== '' &&
+    formData.snowmobile_operational !== '' &&
+    isDamageDescriptionValid.value &&
+    isOtherPartyPhoneValid.value
+  )
+  if (formData.other_party_involved === 'yes' && !isOtherPartyNameValid.value) return false
+  if (formData.injuries_sustained === 'yes' && formData.medical_attention === '') return false
+  return baseValid
+})
+
+const charCountClass = computed(() => {
+  const length = formData.damage_description.length
+  if (length < 50) return 'below-min'
+  if (length >= 250) return 'at-limit'
+  if (length / 250 >= 0.9) return 'near-limit'
+  return 'normal'
+})
+
+watch(formData, (newData) => { emit('update', { ...newData }) }, { deep: true })
+watch(isFormValid, (isValid) => { emit('valid', isValid) }, { immediate: true })
+</script>
+
+<style scoped>
+.snowmobile-claim-form { width: 100%; }
+h3 { color: var(--color-primary, var(--color-primary)); font-size: 1.3rem; margin-bottom: 1.5rem; }
+h4 { color: var(--color-primary); font-size: 1.1rem; margin-bottom: 1rem; margin-top: 0; }
+.form-group { margin-bottom: 1.5rem; }
+label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; }
+.form-control { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; transition: border-color 0.3s; }
+.form-control:focus { outline: none; border-color: var(--color-primary, var(--color-primary)); }
+.form-control.invalid { border-color: #dc3545; border-width: 2px; }
+.form-control.invalid:focus { border-color: #dc3545; box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); }
+.error-text { color: #dc3545; font-size: 0.875rem; display: block; margin-top: 0.25rem; }
+select.form-control { cursor: pointer; }
+textarea.form-control { resize: vertical; min-height: 100px; font-family: inherit; }
+.radio-group { display: flex; gap: 1.5rem; margin-top: 0.5rem; }
+.radio-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 400; cursor: pointer; }
+.radio-label input[type="radio"] { width: 18px; height: 18px; cursor: pointer; }
+.conditional-section { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid var(--color-primary); }
+small { color: #666; font-size: 0.875rem; display: block; margin-top: 0.25rem; }
+small.normal { color: #666; }
+small.below-min { color: #ff9800; font-weight: 600; }
+small.below-min::after { content: ' (minimum 50 characters)'; }
+small.near-limit { color: #ff9800; font-weight: 600; }
+small.at-limit { color: #f44336; font-weight: 600; }
+@media (max-width: 768px) {
+  .radio-group { flex-direction: column; gap: 0.75rem; }
+}
+</style>

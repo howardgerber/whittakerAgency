@@ -34,6 +34,49 @@
               <p class="source">Source: <a href="https://www.flaticon.com/free-icons/atv" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
               <p class="license">License: Flaticon Free License</p>
             </div>
+
+            <div class="attribution-item">
+              <h3>Earthquake Icon</h3>
+              <p class="creator">Created by kerismaker</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/earthquake" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
+            <div class="attribution-item">
+              <h3>Oregon Icon</h3>
+              <p class="creator">Created by JunGSa</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/oregon" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
+            <div class="attribution-item">
+              <h3>Contact Icon</h3>
+              <p class="creator">Created by Prashanth Rapolu 15</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/contact" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
+            <div class="attribution-item">
+              <h3>Claim Icon</h3>
+              <p class="creator">Created by kmg design</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/claim" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
+            <div class="attribution-item">
+              <h3>Quote Icon</h3>
+              <p class="creator">Created by Awicon</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/price-list" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
+            <div class="attribution-item">
+              <h3>User Icon</h3>
+              <p class="creator">Created by Nuricon</p>
+              <p class="source">Source: <a href="https://www.flaticon.com/free-icons/my-profile" target="_blank" rel="noopener noreferrer">Flaticon</a></p>
+              <p class="license">License: Flaticon Free License</p>
+            </div>
+
           </div>
         </div>
 

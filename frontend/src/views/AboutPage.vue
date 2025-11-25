@@ -123,7 +123,9 @@
 
             <ul class="oregon-features">
               <li>
-                <span class="feature-icon">🏔️</span>
+                <span class="feature-icon-image">
+                  <img src="/images/icons/earthquake_shield.png" alt="Earthquake Coverage" class="feature-img">
+                </span>
                 <div>
                   <strong>Earthquake Coverage Recommendations</strong>
                   <p>Expert guidance on protecting your property from seismic activity</p>
@@ -419,6 +421,21 @@ const authStore = useAuthStore()
 .feature-icon {
   font-size: 2rem;
   flex-shrink: 0;
+}
+
+.feature-icon-image {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.feature-img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
 }
 
 .oregon-features strong {

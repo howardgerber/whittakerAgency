@@ -2,200 +2,226 @@
   <div class="home-page">
     <!-- Hero Section -->
     <section class="hero">
-      <div class="container">
-        <h1>Welcome to Whittaker Agency</h1>
-        <p class="tagline">Your Family, Your Business, Our Priority</p>
-        <p class="subtitle">Serving Families and Businesses Across Oregon</p>
+      <div class="container hero-container">
+        <div class="hero-content">
+          <h1>Welcome to Whittaker Agency</h1>
+          <p class="tagline">Your Family, Your Business, Our Priority</p>
+          <p class="subtitle">Serving Families and Businesses Across Oregon</p>
 
-        <div v-if="!authStore.isAuthenticated" class="cta">
-          <RouterLink to="/register" class="btn btn-primary">Get Started</RouterLink>
-          <RouterLink to="/services" class="btn btn-secondary">View Services</RouterLink>
-        </div>
-        <div v-else class="cta">
-          <p class="welcome-message">Welcome back, {{ authStore.user?.full_name }}!</p>
-          <RouterLink to="/services" class="btn btn-secondary">View Services</RouterLink>
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Overview Section -->
-    <section class="services">
-      <div class="container">
-        <h2>Our Insurance Services</h2>
-        <p class="section-description">Comprehensive coverage for every stage of life</p>
-
-        <div class="services-grid">
-          <RouterLink
-            v-for="service in services"
-            :key="service.name"
-            :to="`/services#${service.id}`"
-            class="service-card"
-          >
-            <div class="service-icon">{{ service.icon }}</div>
-            <h3>{{ service.name }}</h3>
-            <p>{{ service.description }}</p>
-          </RouterLink>
-        </div>
-
-        <div class="section-cta">
-          <RouterLink to="/services" class="btn btn-primary">View All Services</RouterLink>
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Choose Us Section -->
-    <section class="why-choose-us">
-      <div class="container">
-        <h2>Why Choose Whittaker Agency?</h2>
-        <div class="benefits-grid">
-          <div v-for="benefit in benefits" :key="benefit.title" class="benefit-card">
-            <div class="benefit-icon">{{ benefit.icon }}</div>
-            <h3>{{ benefit.title }}</h3>
-            <p>{{ benefit.description }}</p>
+          <div v-if="!authStore.isAuthenticated" class="cta">
+            <RouterLink to="/register" class="btn btn-primary">Get Started</RouterLink>
+            <RouterLink to="/contact" class="btn btn-secondary">Contact Us</RouterLink>
+          </div>
+          <div v-else class="cta">
+            <p class="welcome-message">Welcome back, {{ authStore.user?.full_name }}!</p>
           </div>
         </div>
+
+        <!-- Thought Bubble for Claims -->
+        <RouterLink v-if="isBubbleVisible" to="/claims" class="thought-bubble">
+          <button @click.prevent="dismissBubble" class="dismiss-btn" aria-label="Dismiss" title="Dismiss">×</button>
+          <div class="bubble-text">
+            <span class="bubble-content">⚠️ Need to file a claim?</span>
+            <span class="bubble-link">Learn what to do →</span>
+          </div>
+        </RouterLink>
       </div>
     </section>
 
-    <!-- Oregon Connection Section -->
-    <section class="oregon-connection">
+    <!-- About + Services Combo Section -->
+    <section class="about-services-combo">
       <div class="container">
-        <div class="oregon-content">
-          <div class="oregon-text">
-            <h2>Proudly Serving Oregon</h2>
+        <div class="about-text">
+          <h2>Oregon's Trusted Insurance Partner Since 1998</h2>
+          <p>
+            Family-owned and operated, Whittaker Agency serves families and businesses across Oregon
+            with personalized insurance solutions. We're not a call center - we're your neighbors,
+            committed to protecting what matters most to you.
+          </p>
+        </div>
+
+        <div class="services-and-advantages">
+          <div class="services-simple">
+            <h3>Coverage Options</h3>
+            <ul class="coverage-list">
+              <li><span class="icon">🚗</span> Vehicle</li>
+              <li><span class="icon">🏠</span> Property</li>
+              <li><span class="icon">❤️</span> Life</li>
+              <li><span class="icon">💼</span> Business</li>
+              <li><span class="icon">🔒</span> Identity Protection</li>
+              <li><span class="icon">☂️</span> Other Services</li>
+            </ul>
+            <RouterLink to="/services" class="details-link">
+              View all services →
+            </RouterLink>
+          </div>
+
+          <div class="advantage-card">
+            <div class="icon-image">
+              <img src="/images/icons/Oregon.png" alt="Oregon" class="oregon-icon">
+            </div>
+            <h3>Proudly Serving Oregon</h3>
             <p>Born and raised in the Pacific Northwest, we understand the unique needs of Oregon families and businesses. From the coast to the mountains, we're here to protect what matters most to you.</p>
             <p>Our deep roots in Oregon mean we're not just your insurance agency—we're your neighbors, committed to the communities we serve.</p>
-            <div class="section-cta">
-              <RouterLink to="/about" class="btn btn-primary">Learn More About Us</RouterLink>
-            </div>
           </div>
-          <div class="oregon-image">
-            <img src="/images/oregon-multnomah.jpg" alt="Multnomah Falls Oregon" class="falls-image">
+
+          <div class="advantage-card">
+            <div class="icon-large">🤝</div>
+            <h3>Personalized Touch with Trusted Advisors</h3>
+            <p>Real people, real relationships, real service - not automated systems or call centers.</p>
+            <p>With years of experience in the insurance industry, our team provides expert guidance you can trust.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Visit Our Office Section -->
-    <section class="visit-office">
+    <!-- Serving Oregon Communities Section -->
+    <section class="serving-oregon">
       <div class="container">
-        <h2>Visit Our Office Today</h2>
-        <div class="office-content">
-          <div class="office-info">
-            <div class="address-box">
-              <h3>Whittaker Agency</h3>
-              <p class="address">
-                12520 SW 68th Ave A<br>
-                Tigard, OR 97223
-              </p>
-              <p class="hours">
-                <strong>Hours:</strong><br>
-                Monday - Friday: 9:00 AM - 5:00 PM<br>
-                Saturday - Sunday: Closed
-              </p>
-              <p class="contact">
-                <strong>Phone:</strong> <a href="tel:+15035551234">(503) 555-1234</a><br>
-                <strong>Email:</strong> <a href="mailto:info@whittakeragency.com">info@whittakeragency.com</a>
-              </p>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=12520+SW+68th+Ave+A,+Tigard,+OR+97223" target="_blank" class="btn btn-primary">Get Directions</a>
+        <h2>Serving Oregon Communities</h2>
+        <div class="two-column">
+          <div class="communities-text">
+            <p>
+              From the coast to the Cascades, from Portland to Medford, Whittaker Agency is proud
+              to serve communities throughout Oregon. We're licensed statewide and ready to help
+              wherever you call home.
+            </p>
+            <div class="areas">
+              <strong>Service Areas Include:</strong><br>
+              Portland Metro • Salem • Eugene • Bend • Medford • Corvallis • Ashland •
+              Crater Lake • Hood River • Pendleton • and all surrounding communities
             </div>
           </div>
-          <div class="office-map">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2797.5!2d-122.7524!3d45.4227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950c3e3c3c3c3c%3A0x1234567890!2s12520%20SW%2068th%20Ave%20A%2C%20Tigard%2C%20OR%2097223!5e0!3m2!1sen!2sus!4v1234567890"
-              width="100%"
-              height="400"
-              style="border:0;"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+          <div class="oregon-pride">
+            <div class="pride-box">
+              <p class="big-stat">25+</p>
+              <p class="stat-label">Years Serving Oregon</p>
+            </div>
+            <div class="pride-box">
+              <p class="big-stat">5,000+</p>
+              <p class="stat-label">Happy Customers</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Get Started / Already Protected Section -->
+    <section class="dual-cta-section">
+      <div class="container">
+        <div class="dual-cta-grid">
+          <!-- Ready to Get Protected -->
+          <div class="cta-card cta-primary">
+            <div class="card-icon">🛡️</div>
+            <h2>Ready to Get Protected?</h2>
+            <p class="card-description">Get a free quote in just 3 minutes and discover how affordable comprehensive coverage can be.</p>
+
+            <div class="cta-actions">
+              <RouterLink v-if="authStore.isAuthenticated" to="/quote" class="btn btn-primary btn-lg">Get a Quote</RouterLink>
+              <RouterLink v-else to="/register" class="btn btn-primary btn-lg">Get a Quote</RouterLink>
+              <RouterLink to="/services" class="btn-link">Browse Services →</RouterLink>
+            </div>
+          </div>
+
+          <!-- Already Protected -->
+          <div class="cta-card cta-secondary">
+            <div class="card-icon warning">⚠️</div>
+            <h2>Already Protected?</h2>
+            <p class="card-description">Need to file a claim? Learn what information you'll need and how the process works.</p>
+
+            <div class="cta-actions">
+              <RouterLink to="/claims" class="btn btn-outline-primary btn-lg">Learn About Claims</RouterLink>
+              <a href="tel:+15036205999" class="btn-link">Contact Us: (503) 620-5999</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="guarantee">
+          ✓ No obligation  ✓ Free consultation  ✓ Fast, friendly service
+        </p>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+const isBubbleVisible = ref(true)
 
-const services = [
-  {
-    id: 'auto',
-    name: 'Auto Insurance',
-    icon: '🚗',
-    description: 'Comprehensive coverage for your vehicles with competitive rates.'
-  },
-  {
-    id: 'home',
-    name: 'Home Insurance',
-    icon: '🏠',
-    description: 'Protect your home and belongings from unexpected events.'
-  },
-  {
-    id: 'life',
-    name: 'Life Insurance',
-    icon: '❤️',
-    description: 'Secure your family\'s financial future with tailored life insurance.'
-  },
-  {
-    id: 'business',
-    name: 'Business Insurance',
-    icon: '💼',
-    description: 'Comprehensive coverage for your business operations and assets.'
-  },
-  {
-    id: 'health',
-    name: 'Health Insurance',
-    icon: '🏥',
-    description: 'Quality healthcare coverage for you and your family.'
-  },
-  {
-    id: 'umbrella',
-    name: 'Umbrella Insurance',
-    icon: '☂️',
-    description: 'Additional liability protection beyond standard policies.'
-  },
-  {
-    id: 'motorcycle',
-    name: 'Motorcycle Insurance',
-    icon: '🏍️',
-    description: 'Specialized coverage for motorcycle enthusiasts.'
-  },
-  {
-    id: 'rv',
-    name: 'RV Insurance',
-    icon: '🚐',
-    description: 'Protect your recreational vehicles and travel adventures.'
-  }
-]
+interface BubbleState {
+  dismissCount: number
+  lastDismissed: number | null
+}
 
-const benefits = [
-  {
-    title: 'Local Expertise',
-    icon: '🌲',
-    description: 'Deep understanding of Oregon\'s unique insurance needs and regulations.'
-  },
-  {
-    title: 'Personalized Service',
-    icon: '🤝',
-    description: 'Tailored insurance solutions that fit your specific situation.'
-  },
-  {
-    title: 'Trusted Advisors',
-    icon: '⭐',
-    description: 'Years of experience helping families and businesses protect what matters.'
-  },
-  {
-    title: '24/7 Support',
-    icon: '📞',
-    description: 'Always here when you need us, day or night.'
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
+const MAX_DISMISSALS = 6 // After 6 dismissals, hide permanently
+
+onMounted(() => {
+  const stateStr = localStorage.getItem('claims-bubble-state')
+
+  if (!stateStr) {
+    // First time - show the bubble
+    isBubbleVisible.value = true
+    return
   }
-]
+
+  try {
+    const state: BubbleState = JSON.parse(stateStr)
+
+    // If dismissed 6 or more times, hide permanently
+    if (state.dismissCount >= MAX_DISMISSALS) {
+      isBubbleVisible.value = false
+      return
+    }
+
+    // If never dismissed or no lastDismissed timestamp, show it
+    if (!state.lastDismissed) {
+      isBubbleVisible.value = true
+      return
+    }
+
+    // Check if 30 days have passed since last dismissal
+    const now = Date.now()
+    const daysSinceLastDismiss = now - state.lastDismissed
+
+    if (daysSinceLastDismiss >= THIRTY_DAYS_MS) {
+      // 30 days have passed - show the bubble again
+      isBubbleVisible.value = true
+    } else {
+      // Still within 30-day hiding period
+      isBubbleVisible.value = false
+    }
+  } catch (error) {
+    // If parsing fails, reset and show the bubble
+    console.error('Error parsing bubble state:', error)
+    isBubbleVisible.value = true
+  }
+})
+
+const dismissBubble = () => {
+  const stateStr = localStorage.getItem('claims-bubble-state')
+  let state: BubbleState = { dismissCount: 0, lastDismissed: null }
+
+  if (stateStr) {
+    try {
+      state = JSON.parse(stateStr)
+    } catch (error) {
+      console.error('Error parsing bubble state:', error)
+    }
+  }
+
+  // Increment dismiss count and update timestamp
+  state.dismissCount += 1
+  state.lastDismissed = Date.now()
+
+  localStorage.setItem('claims-bubble-state', JSON.stringify(state))
+  isBubbleVisible.value = false
+}
 </script>
 
 <style scoped>
@@ -216,6 +242,15 @@ const benefits = [
   min-height: 500px;
   display: flex;
   align-items: center;
+}
+
+.hero-container {
+  position: relative;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
@@ -251,88 +286,215 @@ const benefits = [
   font-weight: 500;
 }
 
-/* Services Section */
-.services {
-  padding: var(--spacing-xl) 0;
-  background-color: #f8f9fa;
+/* Thought Bubble - Soft Rounded Shape */
+.thought-bubble {
+  position: fixed;
+  top: 150px;
+  right: 60px;
+  background: white;
+  border-radius: 38px;
+  padding: 0.85rem 1.35rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  max-width: 220px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border: 3px solid #ffc107;
 }
 
-.section-description {
+.thought-bubble:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  border-color: #f39c12;
+}
+
+.bubble-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   text-align: center;
+}
+
+.bubble-content {
+  color: #333;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.bubble-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.thought-bubble:hover .bubble-link {
+  color: #1a4d2e;
+}
+
+/* Dismiss Button */
+.dismiss-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: white;
+  border: 2px solid #ffc107;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
   color: #666;
-  margin-bottom: var(--spacing-lg);
+  padding: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.dismiss-btn:hover {
+  background: #f39c12;
+  color: white;
+  border-color: #f39c12;
+  transform: scale(1.1);
+}
+
+/* About + Services Combo Section */
+.about-services-combo {
+  padding: var(--spacing-lg) 0;
+  background: white;
+}
+
+.about-text {
+  max-width: 900px;
+  margin: 0 auto var(--spacing-lg);
+  text-align: center;
+}
+
+.about-text h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.8rem;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.services-and-advantages {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing-lg);
+  align-items: stretch;
+}
+
+.services-simple {
+  text-align: center;
+  padding: var(--spacing-lg);
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.services-simple h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
   font-size: 1.1rem;
 }
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-lg);
-  margin-top: var(--spacing-lg);
+.coverage-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  text-align: left;
 }
 
-.service-card {
-  background: white;
+.coverage-list li {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.coverage-list .icon {
+  font-size: 1.3rem;
+}
+
+.details-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.details-link:hover {
+  color: var(--color-dark-blue);
+  text-decoration: underline;
+}
+
+.advantage-card {
+  background: #f8f9fa;
   padding: var(--spacing-lg);
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
+  border: 1px solid #e0e0e0;
 }
 
-.service-card:hover {
+.advantage-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.service-icon {
-  font-size: 3rem;
-  margin-bottom: var(--spacing-md);
-}
-
-.service-card h3 {
-  color: var(--color-primary);
+.icon-large {
+  font-size: 2.5rem;
   margin-bottom: var(--spacing-sm);
 }
 
-.service-card p {
-  color: #666;
-  line-height: 1.6;
+.icon-image {
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Why Choose Us Section */
-.why-choose-us {
-  padding: var(--spacing-xl) 0;
+.oregon-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-lg);
-  margin-top: var(--spacing-lg);
-}
-
-.benefit-card {
-  text-align: center;
-  padding: var(--spacing-lg);
-}
-
-.benefit-icon {
-  font-size: 3rem;
-  margin-bottom: var(--spacing-md);
-}
-
-.benefit-card h3 {
+.advantage-card h3 {
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
+  font-size: 1.1rem;
 }
 
-.benefit-card p {
+.advantage-card p {
   color: #666;
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.advantage-card p + p {
+  margin-top: var(--spacing-sm);
 }
 
 /* Team Preview Section */
@@ -421,83 +583,217 @@ const benefits = [
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Visit Our Office Section */
-.visit-office {
+/* Serving Oregon Communities Section */
+.serving-oregon {
   padding: var(--spacing-xl) 0;
-  background: white;
-}
-
-.visit-office h2 {
-  color: var(--color-primary);
-  font-size: 2.2rem;
-  margin-bottom: var(--spacing-xl);
-  text-align: center;
-}
-
-.office-content {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: var(--spacing-xl);
-  align-items: start;
-}
-
-.address-box {
   background: #f8f9fa;
-  padding: var(--spacing-xl);
-  border-radius: 12px;
-  border-left: 5px solid var(--color-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.address-box h3 {
+.serving-oregon h2 {
   color: var(--color-primary);
-  font-size: 1.5rem;
-  margin-bottom: var(--spacing-md);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
 }
 
-.address-box p {
-  margin-bottom: var(--spacing-md);
-  line-height: 1.7;
+.two-column {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  margin-top: var(--spacing-lg);
+}
+
+.communities-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: var(--spacing-lg);
+}
+
+.areas {
+  background: white;
+  padding: var(--spacing-lg);
+  border-radius: 8px;
+  border-left: 4px solid var(--color-primary);
+  line-height: 1.8;
   color: #666;
 }
 
-.address {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #444;
-}
-
-.hours,
-.contact {
-  font-size: 1rem;
-}
-
-.contact a {
+.areas strong {
   color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.3s ease;
 }
 
-.contact a:hover {
-  color: #1a4d2e;
-  text-decoration: underline;
+.oregon-pride {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
 }
 
-.address-box .btn {
-  margin-top: var(--spacing-md);
-  width: 100%;
-}
-
-.office-map {
+.pride-box {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  color: white;
+  padding: var(--spacing-xl);
   border-radius: 12px;
-  overflow: hidden;
+  text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.office-map iframe {
-  display: block;
-  width: 100%;
+.big-stat {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
 }
+
+.stat-label {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* Dual CTA Section */
+.dual-cta-section {
+  padding: var(--spacing-xl) 0;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.dual-cta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.cta-card {
+  background: white;
+  padding: var(--spacing-xl);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border-top: 4px solid transparent;
+}
+
+.cta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.cta-primary {
+  border-top-color: var(--color-primary);
+}
+
+.cta-secondary {
+  border-top-color: #ffc107;
+}
+
+.cta-card .card-icon {
+  font-size: 3.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-card .card-icon.warning {
+  filter: drop-shadow(0 2px 4px rgba(255, 193, 7, 0.3));
+}
+
+.cta-card h2 {
+  color: var(--color-primary);
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.card-description {
+  color: #666;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+  flex: 1;
+}
+
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.btn-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.btn-link:hover {
+  color: #1a4d2e;
+  background: rgba(47, 79, 79, 0.05);
+  text-decoration: none;
+}
+
+.guarantee {
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  margin-top: var(--spacing-lg);
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-outline-primary:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Hero CTA Buttons */
+.cta .btn-primary,
+.cta .btn-secondary {
+  padding: 1rem 2.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.cta .btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.cta .btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cta .btn-secondary {
+  background: white;
+  color: var(--color-primary);
+  border: 2px solid white;
+}
+
+.cta .btn-secondary:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Footer */
 .footer {
@@ -559,6 +855,11 @@ const benefits = [
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Hide thought bubble on mobile to avoid clutter */
+  .thought-bubble {
+    display: none;
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
@@ -571,8 +872,24 @@ const benefits = [
     font-size: 1rem;
   }
 
+  .services-and-advantages {
+    grid-template-columns: 1fr;
+  }
+
   .oregon-content {
     grid-template-columns: 1fr;
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .dual-cta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-secondary {
+    order: -1;
   }
 
   .office-content {
@@ -583,10 +900,12 @@ const benefits = [
     height: 300px;
   }
 
-  .services-grid,
-  .benefits-grid,
   .team-grid {
     grid-template-columns: 1fr;
+  }
+
+  .cta-card h2 {
+    font-size: 1.5rem;
   }
 }
 </style>

@@ -19,10 +19,26 @@
             class="category-card"
           >
             <div class="card-icon">{{ category.icon }}</div>
-            <h3>{{ category.name }}</h3>
-            <p>{{ category.description }}</p>
+            <div class="card-content">
+              <h3>{{ category.name }}</h3>
+              <p>{{ category.description }}</p>
+            </div>
             <span class="card-arrow">→</span>
           </RouterLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- Claims Info Callout -->
+    <section class="claims-callout">
+      <div class="container">
+        <div class="callout-content">
+          <span class="callout-icon">📋</span>
+          <div class="callout-text">
+            <h3>Already have coverage with us?</h3>
+            <p>If you need to file a claim, learn what information to gather and how our claims process works.</p>
+          </div>
+          <RouterLink to="/claims" class="callout-link">Learn About Filing Claims →</RouterLink>
         </div>
       </div>
     </section>
@@ -34,7 +50,7 @@
         <p>Our expert advisors are here to help you find the perfect coverage for your needs.</p>
         <div class="cta-buttons">
           <RouterLink v-if="!authStore.isAuthenticated" to="/register" class="btn btn-primary btn-lg">Get a Quote</RouterLink>
-          <a href="tel:+15035551234" class="btn btn-outline btn-lg">Call (503) 555-1234</a>
+          <a href="tel:+15036205999" class="btn btn-outline btn-lg">Call (503) 620-5999</a>
         </div>
       </div>
     </section>
@@ -84,13 +100,6 @@ const categories = [
     description: 'Protect yourself from identity theft and fraud'
   },
   {
-    id: 'phone',
-    name: 'Phone Protection',
-    icon: '📱',
-    path: '/services/phone',
-    description: 'Coverage for loss, theft, and damage to your mobile devices'
-  },
-  {
     id: 'other',
     name: 'Other Services',
     icon: '☂️',
@@ -107,7 +116,7 @@ const categories = [
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+  background: var(--color-primary);
   color: white;
   padding: var(--spacing-xl) 0;
   text-align: center;
@@ -131,71 +140,123 @@ const categories = [
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1rem;
 }
 
 .category-card {
   background: white;
-  padding: var(--spacing-xl);
-  border-radius: 12px;
-  text-align: center;
+  padding: 1.25rem;
+  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   text-decoration: none;
   color: inherit;
-  position: relative;
-  overflow: hidden;
-}
-
-.category-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border-left: 4px solid transparent;
 }
 
 .category-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.category-card:hover::before {
-  transform: scaleX(1);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-left-color: var(--color-primary);
 }
 
 .card-icon {
-  font-size: 4rem;
-  margin-bottom: var(--spacing-md);
+  font-size: 3rem;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(47, 79, 79, 0.1);
+  border-radius: 12px;
+}
+
+.card-content {
+  flex: 1;
 }
 
 .category-card h3 {
   color: var(--color-primary);
-  font-size: 1.5rem;
-  margin-bottom: var(--spacing-sm);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.category-card p {
+.card-content p {
   color: #666;
-  line-height: 1.7;
-  margin-bottom: var(--spacing-md);
+  line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 .card-arrow {
-  display: inline-block;
   color: var(--color-primary);
   font-size: 1.5rem;
   font-weight: bold;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .category-card:hover .card-arrow {
   transform: translateX(5px);
+}
+
+/* Claims Callout Section */
+.claims-callout {
+  padding: var(--spacing-lg) 0;
+  background: #f8f9fa;
+}
+
+.callout-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.callout-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.callout-text {
+  flex: 1;
+}
+
+.callout-text h3 {
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.callout-text p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.callout-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.callout-link:hover {
+  background: rgba(0, 61, 165, 0.05);
+  color: var(--color-primary-dark);
 }
 
 /* CTA Section */
@@ -241,7 +302,7 @@ const categories = [
 }
 
 .btn-primary:hover {
-  background: #1a4d2e;
+  background: var(--color-primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -276,6 +337,16 @@ const categories = [
     grid-template-columns: 1fr;
   }
 
+  .card-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .category-card {
+    gap: 1rem;
+  }
+
   .cta-buttons {
     flex-direction: column;
     align-items: center;
@@ -284,6 +355,16 @@ const categories = [
   .btn-lg {
     width: 100%;
     max-width: 300px;
+  }
+
+  .callout-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem 1rem;
+  }
+
+  .callout-link {
+    white-space: normal;
   }
 }
 </style>
