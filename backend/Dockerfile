@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for FastAPI backend
 
 # Development stage
-FROM python:3.11-slim as development
+FROM python:3.11-slim AS development
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5102", "--reload
 
 
 # Production stage
-FROM python:3.11-slim as production
+FROM python:3.11-slim AS production
 
 WORKDIR /app
 
