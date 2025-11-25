@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Card Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            color: #2d3748;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .dashboard-header {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+        }
+
+        .header-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            font-size: 2.25rem;
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-title p {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .header-btn {
+            padding: 0.875rem 1.75rem;
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 61, 165, 0.25);
+        }
+
+        .header-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 61, 165, 0.35);
+        }
+
+        .notification-btn {
+            position: relative;
+            font-size: 1.75rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        /* Card Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Card Styles */
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding: 2rem 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 61, 165, 0.05) 0%, rgba(0, 81, 212, 0.02) 100%);
+            border-bottom: 2px solid #f7fafc;
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.75rem;
+        }
+
+        .card-subtitle {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Stats Card Specific */
+        .stats-card {
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            color: white;
+        }
+
+        .stats-card .card-header {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-card .card-header h3,
+        .stats-card .card-subtitle {
+            color: white;
+        }
+
+        .stats-grid-inner {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #ffc107;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        /* Activity Card */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #f7fafc;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: background-color 0.2s;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon-wrapper.yellow {
+            background: rgba(255, 193, 7, 0.15);
+        }
+
+        .activity-icon-wrapper.blue {
+            background: rgba(0, 61, 165, 0.15);
+        }
+
+        .activity-icon-wrapper.green {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: #718096;
+            align-items: center;
+        }
+
+        .activity-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .activity-status.pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #f59e0b;
+        }
+
+        .activity-status.new {
+            background: rgba(0, 61, 165, 0.15);
+            color: #003DA5;
+        }
+
+        .activity-status.completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        /* Quick Actions Card */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .action-card {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f7fafc 0%, #ffffff 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .action-card:hover {
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Progress Card */
+        .progress-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .progress-value {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f7fafc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #003DA5 0%, #0051d4 100%);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.yellow {
+            background: linear-gradient(90deg, #f59e0b 0%, #ffc107 100%);
+        }
+
+        .progress-fill.green {
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+        }
+
+        /* View All Link */
+        .view-all-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #003DA5;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9375rem;
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+
+            .stats-grid-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-container">
+            <div class="header-title">
+                <h1>Whittaker Dashboard</h1>
+                <p>Manage your insurance operations efficiently</p>
+            </div>
+            <div class="header-actions">
+                <div class="notification-btn">
+                    🔔
+                    <span class="notification-count">8</span>
+                </div>
+                <button class="header-btn">New Report</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="dashboard-grid">
+            <!-- Summary Stats Card -->
+            <div class="dashboard-card stats-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">📊</span>
+                        <span>Today's Overview</span>
+                    </h3>
+                    <p class="card-subtitle">Real-time statistics</p>
+                </div>
+                <div class="card-body">
+                    <div class="stats-grid-inner">
+                        <div class="stat-item">
+                            <div class="stat-value">10</div>
+                            <div class="stat-label">Pending Quotes</div>
+                            <div class="stat-change">↑ 3 new</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Pending Claims</div>
+                            <div class="stat-change">↑ 2 new</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">New Messages</div>
+                            <div class="stat-change">↑ 1 new</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">⚡</span>
+                        <span>Quick Actions</span>
+                    </h3>
+                    <p class="card-subtitle">Common tasks</p>
+                </div>
+                <div class="card-body">
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <div class="action-icon">💬</div>
+                            <div class="action-title">Review Quotes</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">🛡️</div>
+                            <div class="action-title">Process Claims</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">✉️</div>
+                            <div class="action-title">View Messages</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">📈</div>
+                            <div class="action-title">Reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">🕐</span>
+                        <span>Recent Activity</span>
+                    </h3>
+                    <p class="card-subtitle">Last 6 hours</p>
+                </div>
+                <div class="card-body">
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper yellow">💬</div>
+                            <div class="activity-content">
+                                <div class="activity-title">New Quote Request</div>
+                                <div class="activity-meta">
+                                    <span>John Smith</span>
+                                    <span>•</span>
+                                    <span>Auto Insurance</span>
+                                    <span>•</span>
+                                    <span>2 min ago</span>
+                                </div>
+                            </div>
+                            <span class="activity-status pending">Pending</span>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper blue">🛡️</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Claim Submitted</div>
+                                <div class="activity-meta">
+                                    <span>Sarah Johnson</span>
+                                    <span>•</span>
+                                    <span>Property Damage</span>
+                                    <span>•</span>
+                                    <span>15 min ago</span>
+                                </div>
+                            </div>
+                            <span class="activity-status new">New</span>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper green">✉️</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Contact Message</div>
+                                <div class="activity-meta">
+                                    <span>Michael Brown</span>
+                                    <span>•</span>
+                                    <span>Policy Question</span>
+                                    <span>•</span>
+                                    <span>1 hour ago</span>
+                                </div>
+                            </div>
+                            <span class="activity-status pending">Pending</span>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper yellow">💬</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Quote Request</div>
+                                <div class="activity-meta">
+                                    <span>Emily Davis</span>
+                                    <span>•</span>
+                                    <span>Home Insurance</span>
+                                    <span>•</span>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </div>
+                            <span class="activity-status pending">Pending</span>
+                        </div>
+                    </div>
+                    <a href="#" class="view-all-link">View All Activity →</a>
+                </div>
+            </div>
+
+            <!-- Performance Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">📈</span>
+                        <span>Performance Metrics</span>
+                    </h3>
+                    <p class="card-subtitle">This week</p>
+                </div>
+                <div class="card-body">
+                    <div class="progress-section">
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-label">Quote Conversion</span>
+                                <span class="progress-value">75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-label">Claims Processed</span>
+                                <span class="progress-value">88%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill yellow" style="width: 88%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-label">Customer Satisfaction</span>
+                                <span class="progress-value">98%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill green" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-label">Response Time</span>
+                                <span class="progress-value">92%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Items Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">⏱️</span>
+                        <span>Items Requiring Attention</span>
+                    </h3>
+                    <p class="card-subtitle">Urgent tasks</p>
+                </div>
+                <div class="card-body">
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper yellow">💬</div>
+                            <div class="activity-content">
+                                <div class="activity-title">High-Value Quote</div>
+                                <div class="activity-meta">
+                                    <span>Business Insurance</span>
+                                    <span>•</span>
+                                    <span>$250K coverage</span>
+                                    <span>•</span>
+                                    <span>3 hours old</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper blue">🛡️</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Urgent Claim</div>
+                                <div class="activity-meta">
+                                    <span>Auto Accident</span>
+                                    <span>•</span>
+                                    <span>Medical involved</span>
+                                    <span>•</span>
+                                    <span>4 hours old</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper green">✉️</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Customer Complaint</div>
+                                <div class="activity-meta">
+                                    <span>Billing Issue</span>
+                                    <span>•</span>
+                                    <span>Follow-up needed</span>
+                                    <span>•</span>
+                                    <span>5 hours old</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon-wrapper yellow">💬</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Renewal Due</div>
+                                <div class="activity-meta">
+                                    <span>Home Insurance</span>
+                                    <span>•</span>
+                                    <span>Expires in 7 days</span>
+                                    <span>•</span>
+                                    <span>Contact needed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="view-all-link">View All Pending Items →</a>
+                </div>
+            </div>
+
+            <!-- Team Summary Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>
+                        <span class="card-icon">👥</span>
+                        <span>Team Summary</span>
+                    </h3>
+                    <p class="card-subtitle">Current status</p>
+                </div>
+                <div class="card-body">
+                    <div class="progress-section">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; padding: 1rem; background: #f7fafc; border-radius: 10px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: #003DA5;">8</div>
+                                <div style="font-size: 0.875rem; color: #718096; margin-top: 0.25rem;">Active Agents</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: #10b981;">24</div>
+                                <div style="font-size: 0.875rem; color: #718096; margin-top: 0.25rem;">Tasks Completed</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: #f59e0b;">2.3h</div>
+                                <div style="font-size: 0.875rem; color: #718096; margin-top: 0.25rem;">Avg Response</div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-label">Overall Workload</span>
+                                <span class="progress-value">68%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill yellow" style="width: 68%"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f7fafc;">
+                            <div style="color: #718096; line-height: 1.8; font-size: 0.9375rem;">
+                                <p style="margin-bottom: 0.5rem;"><strong style="color: #1a202c;">Top Performer:</strong> Sarah Mitchell (12 completions)</p>
+                                <p><strong style="color: #1a202c;">Most Active:</strong> Quote Processing Department</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Top Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+
+        /* Top Navigation */
+        .top-header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            color: #003DA5;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.625rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            padding: 0;
+        }
+
+        .tab-nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+        }
+
+        .tab-item {
+            padding: 1.25rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tab-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-bottom-color: #ffc107;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+        }
+
+        .page-title {
+            margin-bottom: 2rem;
+        }
+
+        .page-title h2 {
+            font-size: 2rem;
+            color: #1a202c;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        /* Stats Cards - Horizontal Layout */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card.yellow {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.blue {
+            border-left-color: #003DA5;
+        }
+
+        .stat-card.green {
+            border-left-color: #10b981;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon-large {
+            font-size: 2.5rem;
+            opacity: 0.3;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1a202c;
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #f7fafc;
+        }
+
+        .stat-trend {
+            font-size: 0.875rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .stat-link {
+            color: #003DA5;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        /* Two Column Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Activity Table */
+        .activity-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1.75rem 2rem;
+            background: linear-gradient(135deg, #f7fafc 0%, #ffffff 100%);
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .panel-header h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .activity-table thead {
+            background: #f7fafc;
+        }
+
+        .activity-table th {
+            padding: 1rem 2rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-table td {
+            padding: 1.25rem 2rem;
+            border-top: 1px solid #f7fafc;
+            color: #2d3748;
+        }
+
+        .activity-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .activity-type {
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .activity-name {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            color: #a0aec0;
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #f59e0b;
+        }
+
+        .status-new {
+            background: rgba(0, 61, 165, 0.15);
+            color: #003DA5;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        /* Quick Actions Sidebar */
+        .actions-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .action-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+        }
+
+        .action-panel h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            background: linear-gradient(135deg, #003DA5 0%, #0051d4 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 61, 165, 0.2);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 61, 165, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #f59e0b 0%, #ffc107 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .action-btn.secondary:hover {
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3);
+        }
+
+        .action-btn.outline {
+            background: white;
+            color: #003DA5;
+            border: 2px solid #003DA5;
+            box-shadow: none;
+        }
+
+        .action-btn.outline:hover {
+            background: #003DA5;
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tab-nav-content {
+                overflow-x: auto;
+            }
+
+            .tab-item {
+                white-space: nowrap;
+                padding: 1rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>Whittaker Agency</h1>
+            </div>
+            <div class="user-section">
+                <div class="notification-icon">
+                    🔔
+                    <span class="notification-badge">8</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <span>Admin User</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-navigation">
+        <div class="tab-nav-content">
+            <a href="#" class="tab-item active">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span>💬</span>
+                <span>Quotes</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span>🛡️</span>
+                <span>Claims</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span>✉️</span>
+                <span>Messages</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span>👥</span>
+                <span>Customers</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span>📈</span>
+                <span>Reports</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-title">
+            <h2>Dashboard Overview</h2>
+            <p>Monitor and manage your insurance operations</p>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="stats-row">
+            <div class="stat-card yellow">
+                <div class="stat-top">
+                    <div class="stat-label">Pending Quotes</div>
+                    <div class="stat-icon-large">💬</div>
+                </div>
+                <div class="stat-number">10</div>
+                <div class="stat-footer">
+                    <span class="stat-trend">↑ 3 new today</span>
+                    <a href="#" class="stat-link">View all →</a>
+                </div>
+            </div>
+
+            <div class="stat-card blue">
+                <div class="stat-top">
+                    <div class="stat-label">Pending Claims</div>
+                    <div class="stat-icon-large">🛡️</div>
+                </div>
+                <div class="stat-number">5</div>
+                <div class="stat-footer">
+                    <span class="stat-trend">↑ 2 new today</span>
+                    <a href="#" class="stat-link">View all →</a>
+                </div>
+            </div>
+
+            <div class="stat-card green">
+                <div class="stat-top">
+                    <div class="stat-label">New Messages</div>
+                    <div class="stat-icon-large">✉️</div>
+                </div>
+                <div class="stat-number">3</div>
+                <div class="stat-footer">
+                    <span class="stat-trend">↑ 1 new today</span>
+                    <a href="#" class="stat-link">View all →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="content-grid">
+            <!-- Recent Activity Table -->
+            <div class="activity-panel">
+                <div class="panel-header">
+                    <h3>Recent Activity</h3>
+                </div>
+                <table class="activity-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Customer</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Auto Insurance</div>
+                                <div class="activity-name">Quote Request</div>
+                            </td>
+                            <td>John Smith</td>
+                            <td class="activity-time">2 min ago</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Property Damage</div>
+                                <div class="activity-name">Claim Submitted</div>
+                            </td>
+                            <td>Sarah Johnson</td>
+                            <td class="activity-time">15 min ago</td>
+                            <td><span class="status-badge status-new">New</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Policy Question</div>
+                                <div class="activity-name">Contact Message</div>
+                            </td>
+                            <td>Michael Brown</td>
+                            <td class="activity-time">1 hour ago</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Home Insurance</div>
+                                <div class="activity-name">Quote Request</div>
+                            </td>
+                            <td>Emily Davis</td>
+                            <td class="activity-time">2 hours ago</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Auto Accident</div>
+                                <div class="activity-name">Claim Processed</div>
+                            </td>
+                            <td>Robert Wilson</td>
+                            <td class="activity-time">3 hours ago</td>
+                            <td><span class="status-badge status-completed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="activity-type">Business Insurance</div>
+                                <div class="activity-name">Quote Request</div>
+                            </td>
+                            <td>Lisa Anderson</td>
+                            <td class="activity-time">4 hours ago</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Quick Actions Sidebar -->
+            <aside class="actions-sidebar">
+                <div class="action-panel">
+                    <h4>Quick Actions</h4>
+                    <div class="action-buttons">
+                        <button class="action-btn">
+                            <span>📋</span>
+                            <span>Review Quotes</span>
+                        </button>
+                        <button class="action-btn">
+                            <span>⚡</span>
+                            <span>Process Claims</span>
+                        </button>
+                        <button class="action-btn secondary">
+                            <span>✉️</span>
+                            <span>View Messages</span>
+                        </button>
+                        <button class="action-btn outline">
+                            <span>📊</span>
+                            <span>Generate Report</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-panel">
+                    <h4>Today's Summary</h4>
+                    <div style="color: #718096; line-height: 1.8;">
+                        <p style="margin-bottom: 0.75rem;"><strong style="color: #1a202c;">18 total items</strong> require attention</p>
+                        <p style="margin-bottom: 0.75rem;">Average response time: <strong style="color: #1a202c;">2.3 hours</strong></p>
+                        <p>Customer satisfaction: <strong style="color: #10b981;">98%</strong></p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+</body>
+</html>

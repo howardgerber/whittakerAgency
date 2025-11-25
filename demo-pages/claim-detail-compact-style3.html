@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim Detail - Compact Style 3: Grouped Micro-Sections</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .compact-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(to right, #003DA5, #0052CC);
+      color: white;
+      padding: 1rem 1.25rem;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .card-body {
+      padding: 0;
+    }
+
+    .detail-section {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .detail-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-header {
+      font-size: 12px;
+      font-weight: 700;
+      color: #003DA5;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #003DA5;
+    }
+
+    .field-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 6px 0;
+    }
+
+    .field-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .field-value {
+      font-size: 13px;
+      color: #222;
+      font-weight: 600;
+      text-align: right;
+      max-width: 60%;
+    }
+
+    .field-value.highlight {
+      color: #003DA5;
+    }
+
+    .field-value.yes {
+      color: #28a745;
+    }
+
+    .field-value.no {
+      color: #999;
+    }
+
+    .field-value.report {
+      font-family: 'Courier New', monospace;
+      background: #f0f4f8;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .field-block {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #e0e0e0;
+    }
+
+    .field-block .field-label {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .field-block .field-value {
+      display: block;
+      text-align: left;
+      max-width: 100%;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .detail-section {
+        padding: 1rem;
+      }
+
+      .field-group {
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .field-value {
+        text-align: left;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="compact-card">
+    <div class="card-header">
+      <h3>Detailed Information</h3>
+    </div>
+    <div class="card-body">
+      <!-- Incident Section -->
+      <div class="detail-section">
+        <div class="section-header">Incident Details</div>
+        <div class="field-group">
+          <span class="field-label">Type</span>
+          <span class="field-value highlight">Single Vehicle Accident</span>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Location</span>
+          <span class="field-value">Woodhaven & Pinehurst</span>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Other Party</span>
+          <span class="field-value no">No</span>
+        </div>
+      </div>
+
+      <!-- Police Report Section -->
+      <div class="detail-section">
+        <div class="section-header">Police Report</div>
+        <div class="field-group">
+          <span class="field-label">Report Filed</span>
+          <span class="field-value yes">Yes</span>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Report Number</span>
+          <span class="field-value report">fij89974jk4</span>
+        </div>
+      </div>
+
+      <!-- Vehicle Status Section -->
+      <div class="detail-section">
+        <div class="section-header">Vehicle Status</div>
+        <div class="field-group">
+          <span class="field-label">Drivable</span>
+          <span class="field-value yes">Yes</span>
+        </div>
+        <div class="field-block">
+          <span class="field-label">Damage Description</span>
+          <span class="field-value">Tire fell off</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample data transformation (hidden fields removed)
+    const claimData = {
+      "incident_type": "single_vehicle",
+      "incident_location": "Intersection of Woodhaven and Pinehurst",
+      "other_party_involved": "no",
+      "other_party_name": "",
+      "other_party_insurance": "",
+      "other_party_phone": "",
+      "police_report_filed": "yes",
+      "police_report_number": "fij89974jk4",
+      "vehicle_drivable": "yes",
+      "damage_description": "Tire fell off"
+    };
+
+    // This demo groups related fields into logical sections
+    // Makes scanning and understanding the data much easier
+    // In Vue, you would map claim_data fields to these sections
+  </script>
+</body>
+</html>

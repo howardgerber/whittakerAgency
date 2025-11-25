@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services - Option 3: Two-Column Split View</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-primary: #2F4F4F;
+      --color-primary-dark: #1a4d2e;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 3rem;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      padding: 2rem;
+    }
+
+    .demo-label {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .demo-label h1 {
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .demo-label p {
+      color: #666;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+
+    /* Split View Design */
+    .split-container {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 1.5rem;
+      height: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .services-sidebar {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sidebar-item:hover {
+      background: #f8f9fa;
+    }
+
+    .sidebar-item.active {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1a4d2e 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(47, 79, 79, 0.2);
+    }
+
+    .sidebar-icon {
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(47, 79, 79, 0.1);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-item.active .sidebar-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-content h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+      color: var(--color-primary);
+    }
+
+    .sidebar-item.active .sidebar-content h3 {
+      color: white;
+    }
+
+    .sidebar-content p {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.3;
+    }
+
+    .sidebar-item.active .sidebar-content p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .preview-panel {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .preview-icon {
+      font-size: 6rem;
+      margin-bottom: 1.5rem;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(47, 79, 79, 0.1) 0%, rgba(26, 77, 46, 0.1) 100%);
+      border-radius: 50%;
+    }
+
+    .preview-panel h2 {
+      color: var(--color-primary);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .preview-panel p {
+      color: #666;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    .preview-features {
+      text-align: left;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .preview-features h3 {
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+    }
+
+    .preview-features ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .preview-features li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: #666;
+    }
+
+    .preview-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(47, 79, 79, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .split-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .preview-panel {
+        padding: 2rem;
+      }
+
+      .preview-icon {
+        font-size: 4rem;
+        width: 100px;
+        height: 100px;
+      }
+
+      .preview-panel h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-label">
+    <h1>Option 3: Two-Column Split View</h1>
+    <p><strong>Benefits:</strong> Interactive and engaging, compact list on left, detailed preview on right. Hover changes the preview panel. Modern, app-like feel.</p>
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <h1>Insurance Services</h1>
+      <p class="subtitle">Comprehensive coverage for every aspect of your life</p>
+    </section>
+
+    <div class="split-container">
+      <div class="services-sidebar">
+        <a href="#" class="sidebar-item active">
+          <div class="sidebar-icon">🚗</div>
+          <div class="sidebar-content">
+            <h3>Vehicle</h3>
+            <p>Complete vehicle coverage</p>
+          </div>
+        </a>
+
+        <a href="#" class="sidebar-item">
+          <div class="sidebar-icon">🏠</div>
+          <div class="sidebar-content">
+            <h3>Property</h3>
+            <p>Home and property protection</p>
+          </div>
+        </a>
+
+        <a href="#" class="sidebar-item">
+          <div class="sidebar-icon">❤️</div>
+          <div class="sidebar-content">
+            <h3>Life</h3>
+            <p>Family future security</p>
+          </div>
+        </a>
+
+        <a href="#" class="sidebar-item">
+          <div class="sidebar-icon">💼</div>
+          <div class="sidebar-content">
+            <h3>Business</h3>
+            <p>Business coverage solutions</p>
+          </div>
+        </a>
+
+        <a href="#" class="sidebar-item">
+          <div class="sidebar-icon">🔒</div>
+          <div class="sidebar-content">
+            <h3>Identity Protection</h3>
+            <p>Fraud and theft protection</p>
+          </div>
+        </a>
+
+        <a href="#" class="sidebar-item">
+          <div class="sidebar-icon">☂️</div>
+          <div class="sidebar-content">
+            <h3>Other Services</h3>
+            <p>Specialized coverage options</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-icon">🚗</div>
+        <h2>Vehicle Insurance</h2>
+        <p>Comprehensive coverage for all your vehicles including auto, motorcycle, RV, boat, ATV, and more.</p>
+
+        <div class="preview-features">
+          <h3>What's Covered:</h3>
+          <ul>
+            <li>Auto Insurance</li>
+            <li>Motorcycle Coverage</li>
+            <li>RV & Travel Trailer</li>
+            <li>Boat & Watercraft</li>
+            <li>ATV & Off-Road Vehicles</li>
+            <li>Snowmobile Insurance</li>
+          </ul>
+        </div>
+
+        <a href="#" class="btn-primary">View Vehicle Services →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add interactivity for demo purposes
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const previewPanel = document.querySelector('.preview-panel');
+
+    const previewData = {
+      'Vehicle': {
+        icon: '🚗',
+        title: 'Vehicle Insurance',
+        description: 'Comprehensive coverage for all your vehicles including auto, motorcycle, RV, boat, ATV, and more.',
+        features: ['Auto Insurance', 'Motorcycle Coverage', 'RV & Travel Trailer', 'Boat & Watercraft', 'ATV & Off-Road Vehicles', 'Snowmobile Insurance']
+      },
+      'Property': {
+        icon: '🏠',
+        title: 'Property Insurance',
+        description: 'Protect your home and property with comprehensive coverage options for homeowners, renters, and landlords.',
+        features: ['Homeowners Insurance', 'Renters Insurance', 'Condo Coverage', 'Landlord Protection', 'Mobile Home Insurance', 'Flood Insurance']
+      },
+      'Life': {
+        icon: '❤️',
+        title: 'Life Insurance',
+        description: 'Secure your family\'s financial future with term, whole, and universal life insurance options.',
+        features: ['Term Life Insurance', 'Whole Life Insurance', 'Universal Life', 'Final Expense Coverage', 'Child Life Insurance', 'Group Life Options']
+      },
+      'Business': {
+        icon: '💼',
+        title: 'Business Insurance',
+        description: 'Comprehensive coverage for businesses of all sizes and industries to protect your assets and operations.',
+        features: ['General Liability', 'Property Coverage', 'Workers Compensation', 'Professional Liability', 'Business Auto', 'Cyber Insurance']
+      },
+      'Identity Protection': {
+        icon: '🔒',
+        title: 'Identity Protection',
+        description: 'Protect yourself and your family from identity theft, fraud, and cybercrime with comprehensive monitoring.',
+        features: ['Credit Monitoring', 'Dark Web Surveillance', 'Identity Restoration', 'Fraud Resolution', 'Lost Wallet Protection', '24/7 Support']
+      },
+      'Other Services': {
+        icon: '☂️',
+        title: 'Other Services',
+        description: 'Specialized coverage options for unique needs including umbrella, health, pet, travel, and more.',
+        features: ['Umbrella Insurance', 'Health Coverage', 'Pet Insurance', 'Travel Protection', 'Jewelry Coverage', 'Wedding Insurance']
+      }
+    };
+
+    sidebarItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Update active state
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Update preview panel
+        const serviceName = item.querySelector('h3').textContent;
+        const data = previewData[serviceName];
+
+        if (data) {
+          previewPanel.innerHTML = `
+            <div class="preview-icon">${data.icon}</div>
+            <h2>${data.title}</h2>
+            <p>${data.description}</p>
+
+            <div class="preview-features">
+              <h3>What's Covered:</h3>
+              <ul>
+                ${data.features.map(f => `<li>${f}</li>`).join('')}
+              </ul>
+            </div>
+
+            <a href="#" class="btn-primary">View ${serviceName} Services →</a>
+          `;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

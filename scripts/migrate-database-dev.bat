@@ -5,12 +5,10 @@ echo ============================================
 echo.
 
 cd /d "%~dp0.."
-cd backend
 
-echo Running Alembic migrations...
-alembic upgrade head
+echo Running Alembic migrations inside Docker container...
+docker-compose -f docker-compose.dev.yml exec api alembic upgrade head
 
 echo.
 echo Migration complete!
-cd ..
 pause

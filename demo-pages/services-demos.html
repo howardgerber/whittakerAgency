@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Page Design Options - Demo Gallery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2F4F4F 0%, #1a4d2e 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .intro {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .intro h2 {
+      color: #2F4F4F;
+      margin-bottom: 1rem;
+    }
+
+    .intro p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .options-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .option-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .option-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .option-header {
+      background: linear-gradient(135deg, #2F4F4F 0%, #1a4d2e 100%);
+      color: white;
+      padding: 1.5rem;
+    }
+
+    .option-header h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .option-body {
+      padding: 1.5rem;
+    }
+
+    .option-body h4 {
+      color: #2F4F4F;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .option-body ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    .option-body li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: #666;
+    }
+
+    .option-body li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #2F4F4F;
+      font-weight: bold;
+    }
+
+    .option-footer {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .btn {
+      display: block;
+      background: #2F4F4F;
+      color: white;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #1a4d2e;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(47, 79, 79, 0.3);
+    }
+
+    .recommendation {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .recommendation-icon {
+      font-size: 1.5rem;
+    }
+
+    .recommendation-text {
+      color: #856404;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 2px solid #e9ecef;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Services Page Design Options</h1>
+      <p>Compare different layout approaches for the Whittaker Agency services page</p>
+    </header>
+
+    <div class="intro">
+      <h2>About These Demos</h2>
+      <p>The current services page uses large centered cards with lots of white space. These demos show alternative approaches that are more information-dense and visually engaging while maintaining professional appearance.</p>
+      <p><strong>Current Issue:</strong> Cards are too big, excessive vertical space, lots of scrolling required to see all services.</p>
+      <p><strong>Goal:</strong> More compact, visually interesting, less white space, easier to scan all options.</p>
+    </div>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-header">
+          <h3>Option 1: Compact Horizontal Cards</h3>
+          <p>Icon and text side-by-side with hover effects</p>
+        </div>
+        <div class="option-body">
+          <h4>Benefits:</h4>
+          <ul>
+            <li>50% reduction in vertical space</li>
+            <li>Icons beside text instead of above</li>
+            <li>Clean left-slide hover animation</li>
+            <li>All content visible without scrolling</li>
+            <li>Maintains card aesthetic</li>
+          </ul>
+          <div class="recommendation">
+            <span class="recommendation-icon">⭐</span>
+            <span class="recommendation-text">Recommended - Best balance of compact and visual appeal</span>
+          </div>
+        </div>
+        <div class="option-footer">
+          <a href="services-option1-compact-horizontal.html" class="btn" target="_blank">View Demo →</a>
+        </div>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <h3>Option 2: List/Table Hybrid</h3>
+          <p>Row-based layout with alternating backgrounds</p>
+        </div>
+        <div class="option-body">
+          <h4>Benefits:</h4>
+          <ul>
+            <li>Most information-dense option</li>
+            <li>Alternating row backgrounds for scannability</li>
+            <li>Whole-row hover effects</li>
+            <li>Similar to modern SaaS interfaces</li>
+            <li>Minimal white space</li>
+          </ul>
+        </div>
+        <div class="option-footer">
+          <a href="services-option2-list-hybrid.html" class="btn" target="_blank">View Demo →</a>
+        </div>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <h3>Option 3: Two-Column Split View</h3>
+          <p>Interactive sidebar with large preview panel</p>
+        </div>
+        <div class="option-body">
+          <h4>Benefits:</h4>
+          <ul>
+            <li>Most interactive and engaging</li>
+            <li>Compact service list on left</li>
+            <li>Detailed preview changes on hover/click</li>
+            <li>Modern app-like interface</li>
+            <li>Shows more detail without navigation</li>
+          </ul>
+        </div>
+        <div class="option-footer">
+          <a href="services-option3-split-view.html" class="btn" target="_blank">View Demo →</a>
+        </div>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <h3>Option 4: Compact Grid with Backgrounds</h3>
+          <p>Traditional grid but more compact with gradient backgrounds</p>
+        </div>
+        <div class="option-body">
+          <h4>Benefits:</h4>
+          <ul>
+            <li>Keeps familiar grid layout</li>
+            <li>40% smaller cards</li>
+            <li>Subtle gradient backgrounds add depth</li>
+            <li>Icon + title horizontal saves space</li>
+            <li>Footer with "Learn more" link</li>
+          </ul>
+        </div>
+        <div class="option-footer">
+          <a href="services-option4-compact-grid.html" class="btn" target="_blank">View Demo →</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p><strong>Instructions:</strong> Click "View Demo" on each option to see the full design in action.</p>
+      <p>Each demo includes hover effects and is fully responsive for mobile viewing.</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage Layout Options</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .option-label {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            color: #003DA5;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            min-height: 120px;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #003DA5;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #002B73;
+            transform: scale(1.05);
+        }
+
+        .footer-note {
+            color: rgba(255,255,255,0.8);
+            margin-top: 3rem;
+            font-size: 0.95rem;
+        }
+
+        .comparison {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            color: white;
+        }
+
+        .comparison h3 {
+            margin-bottom: 1rem;
+        }
+
+        .comparison table {
+            width: 100%;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        .comparison th {
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .comparison td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 Homepage Layout Options</h1>
+        <p class="subtitle">Choose the layout that best drives conversions for Whittaker Agency</p>
+
+        <div class="options-grid">
+            <!-- Option A -->
+            <div class="option-card">
+                <div class="option-label">OPTION A</div>
+                <h2>Conversion-Focused</h2>
+                <p class="description">
+                    Multiple small sections with clear CTAs throughout. Compact service badges,
+                    brief about section, areas served, and strong final CTA.
+                </p>
+                <ul class="features">
+                    <li>Service badges (quick scan)</li>
+                    <li>Quick facts with stats</li>
+                    <li>4 benefit cards</li>
+                    <li>Areas served list</li>
+                    <li>Big final CTA section</li>
+                </ul>
+                <a href="option-a.html" target="_blank" class="btn">View Option A</a>
+            </div>
+
+            <!-- Option B -->
+            <div class="option-card">
+                <div class="option-label">OPTION B</div>
+                <h2>Interactive Collapsible</h2>
+                <p class="description">
+                    Collapsible accordion for services (click to expand), two-column layout
+                    with Oregon map visual, and numbered why-choose-us section.
+                </p>
+                <ul class="features">
+                    <li>Interactive accordion (engaging)</li>
+                    <li>Oregon map/visual</li>
+                    <li>Two-column layouts</li>
+                    <li>Numbered advantages (1, 2, 3)</li>
+                    <li>Less scrolling required</li>
+                </ul>
+                <a href="option-b.html" target="_blank" class="btn">View Option B</a>
+            </div>
+
+            <!-- Option C -->
+            <div class="option-card">
+                <div class="option-label">OPTION C</div>
+                <h2>Minimal List + Dual CTA</h2>
+                <p class="description">
+                    Simple bullet list of services, larger text blocks for readability,
+                    and unique dual-option CTA (Quote vs Call).
+                </p>
+                <ul class="features">
+                    <li>Clean bullet list</li>
+                    <li>Larger text for readability</li>
+                    <li>Stats boxes (25+ years, 5000+ customers)</li>
+                    <li>Dual CTA (Quote or Call)</li>
+                    <li>Fewer sections, bigger impact</li>
+                </ul>
+                <a href="option-c.html" target="_blank" class="btn">View Option C</a>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <h3>Quick Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Option A</th>
+                        <th>Option B</th>
+                        <th>Option C</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Service Display</td>
+                        <td>Badges</td>
+                        <td>Accordion</td>
+                        <td>List</td>
+                    </tr>
+                    <tr>
+                        <td>Interactivity</td>
+                        <td>Low</td>
+                        <td>High</td>
+                        <td>Low</td>
+                    </tr>
+                    <tr>
+                        <td>Page Length</td>
+                        <td>Medium</td>
+                        <td>Short</td>
+                        <td>Short</td>
+                    </tr>
+                    <tr>
+                        <td>CTAs</td>
+                        <td>Multiple</td>
+                        <td>Multiple</td>
+                        <td>Big Dual</td>
+                    </tr>
+                    <tr>
+                        <td>Best For</td>
+                        <td>Scanners</td>
+                        <td>Explorers</td>
+                        <td>Readers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="footer-note">
+            💡 These are demo pages - click each option to view in a new tab and compare side-by-side!
+        </p>
+    </div>
+</body>
+</html>

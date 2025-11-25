@@ -8,7 +8,7 @@ cd /d "%~dp0.."
 cd frontend
 
 echo [1/2] Building frontend...
-call npm run build
+call npm run build:dev
 if %errorlevel% neq 0 (
     echo Frontend build failed!
     pause

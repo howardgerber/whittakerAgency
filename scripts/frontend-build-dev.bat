@@ -10,8 +10,8 @@ echo.
 cd /d "%~dp0.."
 cd frontend
 
-echo Building frontend...
-call npm run build
+echo Building frontend for development...
+call npm run build:dev
 if %errorlevel% neq 0 (
     echo Frontend build failed!
     pause
@@ -25,5 +25,3 @@ echo ============================================
 echo Frontend updated at http://localhost:8082
 echo No container restart needed - changes are live!
 echo.
-
-pause
